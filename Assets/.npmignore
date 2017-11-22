@@ -1,0 +1,7 @@
+.npmignore
+Modules/
+Modules.meta
+Plugins/
+Plugins.meta
+Tests/
+Tests.meta
