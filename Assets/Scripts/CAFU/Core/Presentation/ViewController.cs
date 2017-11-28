@@ -44,6 +44,10 @@ namespace CAFU.Core.Presentation {
             base.Awake();
         }
 
+        private void OnDestroy() {
+            Instance = null;
+        }
+
     }
 
 }
