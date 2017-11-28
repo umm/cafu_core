@@ -7,6 +7,10 @@ namespace CAFU.Core.Domain {
 
     }
 
+    public interface IUseCaseAsSingleton : IUseCase {
+
+    }
+
     public interface IUseCaseBuilder {
 
         void Build();
@@ -26,7 +30,7 @@ namespace CAFU.Core.Domain {
             return instance;
         }
 
-        public static TUseCase GetOrCreateInstance<TUseCase>() where TUseCase : class, IUseCase, new() {
+        public static TUseCase GetOrCreateInstance<TUseCase>() where TUseCase : class, IUseCaseAsSingleton, new() {
             if (instanceDictionary == default(Dictionary<Type, IUseCase>)) {
                 instanceDictionary = new Dictionary<Type, IUseCase>();
             }
