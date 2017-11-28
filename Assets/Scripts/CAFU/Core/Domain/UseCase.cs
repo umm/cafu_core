@@ -4,16 +4,21 @@
 
     }
 
+    public interface IUseCaseBuilder {
+
+        void Build();
+
+    }
+
     public abstract class UseCaseBase<TUseCase> : IUseCase
         where TUseCase : UseCaseBase<TUseCase>, new() {
 
-        protected virtual void Build() {
-            // Do nothing.
-        }
-
         public static TUseCase CreateInstance() {
             TUseCase instance = new TUseCase();
-            instance.Build();
+            IUseCaseBuilder builder = instance as IUseCaseBuilder;
+            if (builder != default(IUseCaseBuilder)) {
+                builder.Build();
+            }
             return instance;
         }
 
@@ -26,8 +31,7 @@
 
         public static TUseCase GetOrCreateInstance() {
             if (instance == default(TUseCase)) {
-                instance = new TUseCase();
-                instance.Build();
+                instance = CreateInstance();
             }
             return instance;
         }
