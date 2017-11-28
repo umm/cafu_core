@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 
 namespace CAFU.Core.Domain {
 
@@ -13,8 +13,7 @@ namespace CAFU.Core.Domain {
     /// ListModel インタフェース
     /// </summary>
     /// <inheritdoc cref="IModel" />
-    /// <inheritdoc cref="IList" />
-    public interface IListModel : IModel, IList {
+    public interface IListModel<TModel> : IModel, IList<TModel> {
 
     }
 

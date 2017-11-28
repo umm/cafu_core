@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 
 namespace CAFU.Core.Data {
 
@@ -13,8 +13,7 @@ namespace CAFU.Core.Data {
     /// ListEntity インタフェース
     /// </summary>
     /// <inheritdoc cref="IEntity" />
-    /// <inheritdoc cref="IList" />
-    public interface IListEntity : IEntity, IList {
+    public interface IListEntity<TEntity> : IEntity, IList<TEntity> {
 
     }
 
