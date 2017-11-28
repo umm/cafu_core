@@ -13,7 +13,7 @@ namespace CAFU.Core.Domain {
 
     }
 
-    public static class UseCaseBuilder {
+    public static class UseCaseFactory {
 
         private static Dictionary<Type, IUseCase> instanceDictionary;
 
