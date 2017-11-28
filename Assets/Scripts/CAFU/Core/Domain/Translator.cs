@@ -11,9 +11,9 @@ namespace CAFU.Core.Domain {
 
         TEntity Translate(TModel model);
 
-        IObservable<TModel> TranslateAsObservable(TEntity entity);
+        IObservable<TModel> TranslateAsync(TEntity entity);
 
-        IObservable<TEntity> TranslateAsObservable(TModel model);
+        IObservable<TEntity> TranslateAsync(TModel model);
 
     }
 

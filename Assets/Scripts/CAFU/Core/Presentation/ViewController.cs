@@ -6,17 +6,29 @@ namespace CAFU.Core.Presentation {
 
     }
 
-    public abstract class ViewControllerBase<TPresenter> : MonoBehaviour, IViewController
+    public interface IViewControllerPresenter<out TPresenter> {
+
+        TPresenter Presenter { get; }
+
+    }
+
+    public interface IViewControllerBuilder {
+
+        void Build();
+
+    }
+
+    public abstract class ViewControllerBase<TPresenter> : MonoBehaviour,
+        IViewControllerPresenter<TPresenter>
         where TPresenter : IPresenter {
 
         public TPresenter Presenter { get; protected set; }
 
-        protected virtual void Build() {
-            // Do nothing.
-        }
-
         protected virtual void Awake() {
-            this.Build();
+            IViewControllerBuilder builder = this as IViewControllerBuilder;
+            if (builder != default(IViewControllerBuilder)) {
+                builder.Build();
+            }
         }
 
     }
@@ -30,6 +42,10 @@ namespace CAFU.Core.Presentation {
         protected override void Awake() {
             Instance = (TViewController)this;
             base.Awake();
+        }
+
+        private void OnDestroy() {
+            Instance = null;
         }
 
     }

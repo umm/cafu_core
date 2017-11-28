@@ -1,35 +1,39 @@
-﻿namespace CAFU.Core.Domain {
+﻿using System;
+using System.Collections.Generic;
+
+namespace CAFU.Core.Domain {
 
     public interface IUseCase {
 
     }
 
-    public abstract class UseCaseBase<TUseCase> : IUseCase
-        where TUseCase : UseCaseBase<TUseCase>, new() {
+    public interface IUseCaseBuilder {
 
-        protected virtual void Build() {
-            // Do nothing.
-        }
-
-        public static TUseCase CreateInstance() {
-            TUseCase instance = new TUseCase();
-            instance.Build();
-            return instance;
-        }
+        void Build();
 
     }
 
-    public abstract class UseCaseBaseAsSingleton<TUseCase> : UseCaseBase<TUseCase>
-        where TUseCase : UseCaseBaseAsSingleton<TUseCase>, new() {
+    public static class UseCaseFactory {
 
-        private static TUseCase instance;
+        private static Dictionary<Type, IUseCase> instanceDictionary;
 
-        public static TUseCase GetOrCreateInstance() {
-            if (instance == default(TUseCase)) {
-                instance = new TUseCase();
-                instance.Build();
+        public static TUseCase CreateInstance<TUseCase>() where TUseCase : class, IUseCase, new() {
+            TUseCase instance = new TUseCase();
+            IUseCaseBuilder builder = instance as IUseCaseBuilder;
+            if (builder != default(IUseCaseBuilder)) {
+                builder.Build();
             }
             return instance;
+        }
+
+        public static TUseCase GetOrCreateInstance<TUseCase>() where TUseCase : class, IUseCase, new() {
+            if (instanceDictionary == default(Dictionary<Type, IUseCase>)) {
+                instanceDictionary = new Dictionary<Type, IUseCase>();
+            }
+            if (!instanceDictionary.ContainsKey(typeof(TUseCase))) {
+                instanceDictionary[typeof(TUseCase)] = CreateInstance<TUseCase>();
+            }
+            return instanceDictionary[typeof(TUseCase)] as TUseCase;
         }
 
     }
