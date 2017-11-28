@@ -19,33 +19,6 @@ namespace CAFU.Core.Presentation.View {
 
     public static class ViewExtension {
 
-        public static Transform Transform(this IView self) {
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            MonoBehaviour monoBehaviour = self as MonoBehaviour;
-            if (monoBehaviour == default(MonoBehaviour)) {
-                return null;
-            }
-            return monoBehaviour.transform;
-        }
-
-        public static RectTransform RectTransform(this IView self) {
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            MonoBehaviour monoBehaviour = self as MonoBehaviour;
-            if (monoBehaviour == default(MonoBehaviour)) {
-                return null;
-            }
-            return monoBehaviour.GetComponent<RectTransform>();
-        }
-
-        public static GameObject GameObject(this IView self) {
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            MonoBehaviour monoBehaviour = self as MonoBehaviour;
-            if (monoBehaviour == default(MonoBehaviour)) {
-                return null;
-            }
-            return monoBehaviour.gameObject;
-        }
-
         public static IView InstantiateChild(this IView self, GameObject prefab) {
             return self.InstantiateChild<IView>(prefab);
         }
@@ -57,7 +30,11 @@ namespace CAFU.Core.Presentation.View {
 
         private static TView InstantiateChild<TView>(this IView self, GameObject prefab)
             where TView : IView {
-            GameObject child = Object.Instantiate(prefab, self.Transform());
+            MonoBehaviour monoBehaviour = self as MonoBehaviour;
+            if (monoBehaviour == default(MonoBehaviour)) {
+                throw new System.InvalidOperationException(string.Format("'{0}' is not inheritance MonoBehaviour.", typeof(TView).FullName));
+            }
+            GameObject child = Object.Instantiate(prefab, monoBehaviour.transform);
             TView childView = child.gameObject.GetComponent<TView>();
             if (childView == null) {
                 throw new System.InvalidOperationException(string.Format("GameObject '{0}' has not attached component '{1}'.", child.name, typeof(TView).FullName));
@@ -69,7 +46,11 @@ namespace CAFU.Core.Presentation.View {
             where TView : IViewWithModel<TModel>
             where TModel : IModel {
             TView childView = self.InstantiateChild<TView>(prefab);
-            childView.GameObject().GetComponents<IViewWithModel<TModel>>().ToList().ForEach(
+            MonoBehaviour monoBehaviour = childView as MonoBehaviour;
+            if (monoBehaviour == default(MonoBehaviour)) {
+                throw new System.InvalidOperationException(string.Format("'{0}' is not inheritance MonoBehaviour.", typeof(TView).FullName));
+            }
+            monoBehaviour.gameObject.GetComponents<IViewWithModel<TModel>>().ToList().ForEach(
                 (x) => {
                     childView.Model = model;
                     childView.Render();
