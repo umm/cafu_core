@@ -7,31 +7,35 @@ namespace CAFU.Core.Data {
     public interface IDataStore {
     }
 
-    public interface IScriptableObjectDataStore : IDataStore {
+    // ReSharper disable once UnusedTypeParameter
+    public interface IScriptableObjectDataStoreHandler<T> where T : ScriptableObject {
 
         string Path { get; }
 
     }
 
-    public interface IScriptableObjectInResourcesDataStore : IScriptableObjectDataStore {
+    public interface IScriptableObjectDataStoreHandlerInScene<T> : IScriptableObjectDataStoreHandler<T> where T : ScriptableObject {
     }
 
-    public interface IScriptableObjectInStreamingAssetsDataStore : IScriptableObjectDataStore {
+    public interface IScriptableObjectDataStoreHandlerInResources<T> : IScriptableObjectDataStoreHandler<T> where T : ScriptableObject {
     }
 
-    public static class ScriptableObjectDataStoreExtension {
+    public interface IScriptableObjectDataStoreHandlerInStreamingAssets<T> : IScriptableObjectDataStoreHandler<T> where T : ScriptableObject {
+    }
+
+    public static class ScriptableObjectDataStoreHandlerExtension {
 
         private const string EXTENSION = ".asset";
 
-        public static string CreatePathInRuntime(this IScriptableObjectInResourcesDataStore self) {
+        public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreHandlerInResources<T> self) where T : ScriptableObject {
             return Regex.Replace(self.CreatePath(), string.Format("{0}$", EXTENSION), string.Empty);
         }
 
-        public static string CreatePathInRuntime(this IScriptableObjectInStreamingAssetsDataStore self) {
-            return Path.Combine(UnityEngine.Application.streamingAssetsPath, self.CreatePath());
+        public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreHandlerInStreamingAssets<T> self) where T : ScriptableObject {
+            return Path.Combine(Application.streamingAssetsPath, self.CreatePath());
         }
 
-        private static string CreatePath(this IScriptableObjectDataStore self) {
+        private static string CreatePath<T>(this IScriptableObjectDataStoreHandler<T> self) where T : ScriptableObject {
             if (Regex.IsMatch(self.Path, string.Format("{0}$", EXTENSION))) {
                 return self.Path;
             }
@@ -39,12 +43,16 @@ namespace CAFU.Core.Data {
         }
 
 #if UNITY_EDITOR
-        public static void CreateScriptableObjectAsset<T>(this IScriptableObjectInResourcesDataStore self) where T : ScriptableObject {
-            CreateScriptableObjectAsset<T>(Path.Combine(Path.Combine(UnityEngine.Application.dataPath, "Resources"), self.CreatePath()));
+        public static void CreateScriptableObjectAsset<T>(this IScriptableObjectDataStoreHandlerInScene<T> self) where T : ScriptableObject {
+            CreateScriptableObjectAsset<T>(Path.Combine(Application.dataPath, self.CreatePath()));
         }
 
-        public static void CreateScriptableObjectAsset<T>(this IScriptableObjectInStreamingAssetsDataStore self) where T : ScriptableObject {
-            CreateScriptableObjectAsset<T>(Path.Combine(Path.Combine(UnityEngine.Application.dataPath, "StreamingAssets"), self.CreatePath()));
+        public static void CreateScriptableObjectAsset<T>(this IScriptableObjectDataStoreHandlerInResources<T> self) where T : ScriptableObject {
+            CreateScriptableObjectAsset<T>(Path.Combine(Path.Combine(Application.dataPath, "Resources"), self.CreatePath()));
+        }
+
+        public static void CreateScriptableObjectAsset<T>(this IScriptableObjectDataStoreHandlerInStreamingAssets<T> self) where T : ScriptableObject {
+            CreateScriptableObjectAsset<T>(Path.Combine(Path.Combine(Application.dataPath, "StreamingAssets"), self.CreatePath()));
         }
 
         private static void CreateScriptableObjectAsset<T>(string fullPath) where T : ScriptableObject {
@@ -63,7 +71,7 @@ namespace CAFU.Core.Data {
                     fullPath,
                     string.Format(
                         "^{0}/",
-                        Path.GetDirectoryName(UnityEngine.Application.dataPath)
+                        Path.GetDirectoryName(Application.dataPath)
                     ),
                     string.Empty
                 )
