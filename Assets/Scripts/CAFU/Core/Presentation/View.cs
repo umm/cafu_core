@@ -9,11 +9,9 @@ namespace CAFU.Core.Presentation.View {
 
     }
 
-    public interface IViewWithModel<TModel> : IView where TModel : IModel {
+    public interface IViewWithModel<in TModel> : IView where TModel : IModel {
 
-        TModel Model { get; set; }
-
-        void Render();
+        void Render(TModel model);
 
     }
 
@@ -52,8 +50,7 @@ namespace CAFU.Core.Presentation.View {
             }
             monoBehaviour.gameObject.GetComponents<IViewWithModel<TModel>>().ToList().ForEach(
                 (x) => {
-                    childView.Model = model;
-                    childView.Render();
+                    childView.Render(model);
                 }
             );
             return childView;
