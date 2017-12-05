@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+// ReSharper disable VirtualMemberNeverOverridden.Global
 
 namespace CAFU.Core.Presentation {
 
@@ -24,7 +25,7 @@ namespace CAFU.Core.Presentation {
 
         public TPresenter Presenter { get; protected set; }
 
-        protected virtual void Awake() {
+        protected virtual void Start() {
             IViewControllerBuilder builder = this as IViewControllerBuilder;
             if (builder != default(IViewControllerBuilder)) {
                 builder.Build();
@@ -39,12 +40,11 @@ namespace CAFU.Core.Presentation {
 
         public static TViewController Instance { get; private set; }
 
-        protected override void Awake() {
+        protected virtual void Awake() {
             Instance = (TViewController)this;
-            base.Awake();
         }
 
-        private void OnDestroy() {
+        protected virtual void OnDestroy() {
             Instance = null;
         }
 
