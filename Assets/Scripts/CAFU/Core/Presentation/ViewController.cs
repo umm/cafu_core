@@ -7,7 +7,7 @@ namespace CAFU.Core.Presentation {
 
     }
 
-    public interface IViewControllerPresenter<out TPresenter> {
+    public interface IViewControllerPresenter<out TPresenter> : IViewController {
 
         TPresenter Presenter { get; }
 
