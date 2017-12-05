@@ -25,7 +25,7 @@ namespace CAFU.Core.Presentation {
 
         public TPresenter Presenter { get; protected set; }
 
-        protected virtual void Start() {
+        protected virtual void Awake() {
             IViewControllerBuilder builder = this as IViewControllerBuilder;
             if (builder != default(IViewControllerBuilder)) {
                 builder.Build();
@@ -40,8 +40,9 @@ namespace CAFU.Core.Presentation {
 
         public static TViewController Instance { get; private set; }
 
-        protected virtual void Awake() {
+        protected override void Awake() {
             Instance = (TViewController)this;
+            base.Awake();
         }
 
         protected virtual void OnDestroy() {
