@@ -9,9 +9,15 @@ namespace CAFU.Core.Presentation.View {
 
     }
 
-    public interface IViewWithModel<in TModel> : IView where TModel : IModel {
+    public interface IViewBuilder {
 
-        void Render(TModel model);
+        void Build();
+
+    }
+
+    public interface IViewBuilder<in TModel> where TModel : IModel {
+
+        void Build(TModel model);
 
     }
 
@@ -21,9 +27,9 @@ namespace CAFU.Core.Presentation.View {
             return self.InstantiateChild<IView>(prefab);
         }
 
-        public static IViewWithModel<TModel> InstantiateChild<TModel>(this IView self, GameObject prefab, TModel model)
+        public static IView InstantiateChild<TModel>(this IView self, GameObject prefab, TModel model)
             where TModel : IModel {
-            return self.InstantiateChild<IViewWithModel<TModel>, TModel>(prefab, model);
+            return self.InstantiateChild<IView, TModel>(prefab, model);
         }
 
         private static TView InstantiateChild<TView>(this IView self, GameObject prefab)
@@ -41,16 +47,23 @@ namespace CAFU.Core.Presentation.View {
         }
 
         private static TView InstantiateChild<TView, TModel>(this IView self, GameObject prefab, TModel model)
-            where TView : IViewWithModel<TModel>
+            where TView : IView
             where TModel : IModel {
             TView childView = self.InstantiateChild<TView>(prefab);
             MonoBehaviour monoBehaviour = childView as MonoBehaviour;
             if (monoBehaviour == default(MonoBehaviour)) {
                 throw new System.InvalidOperationException(string.Format("'{0}' is not inheritance MonoBehaviour.", typeof(TView).FullName));
             }
-            monoBehaviour.gameObject.GetComponents<IViewWithModel<TModel>>().ToList().ForEach(
+            // Model 不要の IViewBuilder.Build() をコール
+            monoBehaviour.gameObject.GetComponents<IViewBuilder>().ToList().ForEach(
                 (x) => {
-                    childView.Render(model);
+                    x.Build();
+                }
+            );
+            // Model を要する IViewBuilder<TModel>.Build(TModel model) をコール
+            monoBehaviour.gameObject.GetComponents<IViewBuilder<TModel>>().ToList().ForEach(
+                (x) => {
+                    x.Build(model);
                 }
             );
             return childView;
