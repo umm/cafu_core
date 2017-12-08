@@ -40,6 +40,15 @@ namespace CAFU.Core.Domain {
             return instanceDictionary[typeof(TUseCase)] as TUseCase;
         }
 
+        public static void DestroyInstance<TUseCase>() where TUseCase : class, IUseCaseAsSingleton, new() {
+            if (instanceDictionary == default(Dictionary<Type, IUseCase>)) {
+                instanceDictionary = new Dictionary<Type, IUseCase>();
+            }
+            if (instanceDictionary.ContainsKey(typeof(TUseCase))) {
+                instanceDictionary.Remove(typeof(TUseCase));
+            }
+        }
+
     }
 
 }
