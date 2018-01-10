@@ -1,6 +1,21 @@
 ﻿using UnityEngine;
 // ReSharper disable VirtualMemberNeverOverridden.Global
 
+namespace CAFU.Core {
+
+    // ReSharper disable once PartialTypeWithSinglePart
+    /// <summary>
+    /// [DefaultExecutionOrder] 属性に渡す値を管理する
+    /// </summary>
+    /// <remarks>どうしてもスクリプトの実行順を制御する必要がある場合に利用します。</remarks>
+    public static partial class DefaultExecutionOrders {
+
+        public const int ViewController = -1;
+
+    }
+
+}
+
 namespace CAFU.Core.Presentation {
 
     public interface IViewController {
@@ -19,6 +34,9 @@ namespace CAFU.Core.Presentation {
 
     }
 
+    // Singleton インスタンスを確定させるために、あらゆるクラスよりも先に Awake() が実行されて欲しいので [DefaultExecutionOrder(-1)] を設定
+    // 一応簡単なコードで abstract クラスでも効くことは確認済
+    [DefaultExecutionOrder(DefaultExecutionOrders.ViewController)]
     public abstract class ViewControllerBase<TPresenter> : MonoBehaviour,
         IViewControllerPresenter<TPresenter>
         where TPresenter : IPresenter {
