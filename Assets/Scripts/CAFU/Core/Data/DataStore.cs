@@ -7,79 +7,35 @@ namespace CAFU.Core.Data {
     public interface IDataStore {
     }
 
-    // ReSharper disable once UnusedTypeParameter
-    public interface IScriptableObjectDataStoreHandler<T> where T : ScriptableObject {
-
-        string Path { get; }
-
+    public interface IScriptableObjectDataStore : IDataStore {
     }
 
-    public interface IScriptableObjectDataStoreHandlerInScene<T> : IScriptableObjectDataStoreHandler<T> where T : ScriptableObject {
+    public interface IScriptableObjectDataStoreInScene : IScriptableObjectDataStore {
     }
 
-    public interface IScriptableObjectDataStoreHandlerInResources<T> : IScriptableObjectDataStoreHandler<T> where T : ScriptableObject {
+    public interface IScriptableObjectDataStoreInResources : IScriptableObjectDataStore {
     }
 
-    public interface IScriptableObjectDataStoreHandlerInStreamingAssets<T> : IScriptableObjectDataStoreHandler<T> where T : ScriptableObject {
+    public interface IScriptableObjectDataStoreInStreamingAssets : IScriptableObjectDataStore {
     }
 
-    public static class ScriptableObjectDataStoreHandlerExtension {
+    public static class ScriptableObjectDataStoreExtension {
+
+        private const string BASE_DIRECTORY_NAME = "Entities";
 
         private const string EXTENSION = ".asset";
 
-        public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreHandlerInResources<T> self) where T : ScriptableObject {
-            return Regex.Replace(self.CreatePath(), string.Format("{0}$", EXTENSION), string.Empty);
+        private static string CreatePath<T>() where T : ScriptableObject {
+            return Path.Combine(BASE_DIRECTORY_NAME, string.Format("{0}{1}", typeof(T).Name, EXTENSION));
         }
 
-        public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreHandlerInStreamingAssets<T> self) where T : ScriptableObject {
-            return Path.Combine(Application.streamingAssetsPath, self.CreatePath());
+        public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreInResources self) where T : ScriptableObject {
+            return Regex.Replace(CreatePath<T>(), string.Format("{0}$", EXTENSION), string.Empty);
         }
 
-        private static string CreatePath<T>(this IScriptableObjectDataStoreHandler<T> self) where T : ScriptableObject {
-            if (Regex.IsMatch(self.Path, string.Format("{0}$", EXTENSION))) {
-                return self.Path;
-            }
-            return string.Format("{0}{1}", self.Path, EXTENSION);
+        public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreInStreamingAssets self) where T : ScriptableObject {
+            return Path.Combine(Application.streamingAssetsPath, CreatePath<T>());
         }
-
-#if UNITY_EDITOR
-        public static void CreateScriptableObjectAsset<T>(this IScriptableObjectDataStoreHandlerInScene<T> self) where T : ScriptableObject {
-            CreateScriptableObjectAsset<T>(Path.Combine(Application.dataPath, self.CreatePath()));
-        }
-
-        public static void CreateScriptableObjectAsset<T>(this IScriptableObjectDataStoreHandlerInResources<T> self) where T : ScriptableObject {
-            CreateScriptableObjectAsset<T>(Path.Combine(Path.Combine(Application.dataPath, "Resources"), self.CreatePath()));
-        }
-
-        public static void CreateScriptableObjectAsset<T>(this IScriptableObjectDataStoreHandlerInStreamingAssets<T> self) where T : ScriptableObject {
-            CreateScriptableObjectAsset<T>(Path.Combine(Path.Combine(Application.dataPath, "StreamingAssets"), self.CreatePath()));
-        }
-
-        private static void CreateScriptableObjectAsset<T>(string fullPath) where T : ScriptableObject {
-            if (File.Exists(fullPath)) {
-                Debug.LogWarningFormat("ScriptableObject for type of '{0}' is already exists in '{1}'.", typeof(T).FullName, fullPath);
-                return;
-            }
-            if (!Directory.Exists(Path.GetDirectoryName(fullPath))) {
-                // ReSharper disable once AssignNullToNotNullAttribute
-                Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
-            }
-            T entity = ScriptableObject.CreateInstance<T>();
-            UnityEditor.AssetDatabase.CreateAsset(
-                entity,
-                Regex.Replace(
-                    fullPath,
-                    string.Format(
-                        "^{0}/",
-                        Path.GetDirectoryName(Application.dataPath)
-                    ),
-                    string.Empty
-                )
-            );
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
-        }
-#endif
 
     }
 
