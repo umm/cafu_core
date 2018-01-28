@@ -20,13 +20,13 @@ namespace CAFU.Core.Domain {
 
     public interface IModelFactory<out TModel> where TModel : IModel {
 
-        TModel Factory();
+        TModel Create();
 
     }
 
     public class DefaultModelFactory<TModel> : IModelFactory<TModel> where TModel : IModel, new() {
 
-        public TModel Factory() {
+        public TModel Create() {
             return new TModel();
         }
 

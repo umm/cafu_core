@@ -22,13 +22,13 @@ namespace CAFU.Core.Data {
 
     public interface IDataStoreFactory<out TDataStore> where TDataStore : IDataStore {
 
-        TDataStore Factory();
+        TDataStore Create();
 
     }
 
     public class DefaultDataStoreFactory<TDataStore> : IDataStoreFactory<TDataStore> where TDataStore : IDataStore, new() {
 
-        public TDataStore Factory() {
+        public TDataStore Create() {
             return new TDataStore();
         }
 

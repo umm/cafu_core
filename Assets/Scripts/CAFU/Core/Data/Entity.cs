@@ -20,13 +20,13 @@ namespace CAFU.Core.Data {
 
     public interface IEntityFactory<out TEntity> where TEntity : IEntity {
 
-        TEntity Factory();
+        TEntity Create();
 
     }
 
     public class DefaultEntityFactory<TEntity> : IEntityFactory<TEntity> where TEntity : IEntity, new() {
 
-        public TEntity Factory() {
+        public TEntity Create() {
             return new TEntity();
         }
 

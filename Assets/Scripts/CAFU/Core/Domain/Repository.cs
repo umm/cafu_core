@@ -8,13 +8,13 @@ namespace CAFU.Core.Domain {
 
     public interface IRepositoryFactory<out TRepository> where TRepository : IRepository {
 
-        TRepository Factory();
+        TRepository Create();
 
     }
 
     public class DefaultRepositoryFactory<TRepository> : IRepositoryFactory<TRepository> where TRepository : IRepository, new() {
 
-        public TRepository Factory() {
+        public TRepository Create() {
             return new TRepository();
         }
 

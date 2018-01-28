@@ -32,7 +32,7 @@ namespace CAFU.Core.Presentation.View {
         protected override void OnAwake() {
             base.OnAwake();
             ControllerInstanceManager.Instance.Register(this);
-            ((IController)this).Presenter = PresenterFactory.Factory();
+            ((IController)this).Presenter = PresenterFactory.Create();
         }
 
         protected override void OnDestroy() {

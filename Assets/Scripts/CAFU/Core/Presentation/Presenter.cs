@@ -9,13 +9,13 @@ namespace CAFU.Core.Presentation {
 
     public interface IPresenterFactory<out TPresenter> where TPresenter : IPresenter {
 
-        TPresenter Factory();
+        TPresenter Create();
 
     }
 
     public class DefaultPresenterFactory<TPresenter> : IPresenterFactory<TPresenter> where TPresenter : IPresenter, new() {
 
-        public TPresenter Factory() {
+        public TPresenter Create() {
             return new TPresenter();
         }
 

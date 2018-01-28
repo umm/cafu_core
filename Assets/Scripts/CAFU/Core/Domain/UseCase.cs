@@ -10,7 +10,7 @@ namespace CAFU.Core.Domain {
 
     public interface IUseCaseFactory<out TUseCase> where TUseCase : IUseCase {
 
-        TUseCase Factory();
+        TUseCase Create();
 
     }
 
@@ -20,7 +20,7 @@ namespace CAFU.Core.Domain {
 
     public class DefaultUseCaseFactory<TUseCase> : IUseCaseFactory<TUseCase> where TUseCase : IUseCase, new() {
 
-        public TUseCase Factory() {
+        public TUseCase Create() {
             return new TUseCase();
         }
 
@@ -39,7 +39,7 @@ namespace CAFU.Core.Domain {
             }
         }
 
-        public TUseCase Factory() {
+        public TUseCase Create() {
             return Instance;
         }
 
