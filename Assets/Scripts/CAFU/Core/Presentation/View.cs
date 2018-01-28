@@ -1,22 +1,33 @@
 ﻿using System;
 using System.Linq;
 using CAFU.Core.Domain;
+using CAFU.Core.Presentation.View;
 using UnityEngine;
 using Object = UnityEngine.Object;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 
-namespace CAFU.Core.Presentation.View {
+namespace CAFU.Core.Presentation {
 
     // 本当は IMonoBehaviour 的なモノを継承したいところだが、そんな inteface ないので規約ベースで頑張る
     public interface IView {
 
     }
 
+    public interface IInjectableView<in TModel> : IView where TModel : IModel {
+
+        void Inject(TModel model);
+
+    }
+
+    [Obsolete("Please use MonoBehaviour.Awake() instead of IViewBuilder.Build().")]
     public interface IViewBuilder {
 
         void Build();
 
     }
 
+    [Obsolete("Please use IInjectableView<TModel> instead of IViewBuilder<TModel>.")]
     public interface IViewBuilder<in TModel> where TModel : IModel {
 
         void Build(TModel model);
@@ -24,6 +35,22 @@ namespace CAFU.Core.Presentation.View {
     }
 
     public static class ViewExtension {
+
+        public static IController GetController(this IView view) {
+            return ControllerInstanceManager.Instance.Get(view.GetType().Namespace);
+        }
+
+        public static TController GetController<TController>(this IView view) where TController : class, IController {
+            return view.GetController().As<TController>();
+        }
+
+        public static IPresenter GetPresenter(this IView view) {
+            return view.GetController().Presenter;
+        }
+
+        public static TPresenter GetPresenter<TPresenter>(this IView view) where TPresenter : class, IPresenter {
+            return view.GetPresenter().As<TPresenter>();
+        }
 
         public static IView AddChildView(this Transform transform, GameObject prefab) {
             return transform.AddChildView<IView>(prefab);
@@ -52,19 +79,33 @@ namespace CAFU.Core.Presentation.View {
             if (childMonoBehaviour == default(MonoBehaviour)) {
                 throw new InvalidOperationException(string.Format("'{0}' is not inheritance MonoBehaviour.", typeof(TView).FullName));
             }
+#region v2.0.0 で削除
             // Model 不要の IViewBuilder.Build() をコール
+#pragma warning disable 618
             childMonoBehaviour.gameObject.GetComponents<IViewBuilder>().ToList().ForEach(
+#pragma warning restore 618
                 (x) => {
                     x.Build();
                 }
             );
+#endregion
             if (model != null) {
+                // Model を要する IModelInjectableView.Inject() をコール
+                childMonoBehaviour.gameObject.GetComponents<IInjectableView<TModel>>().ToList().ForEach(
+                    (x) => {
+                        x.Inject(model);
+                    }
+                );
+#region v2.0.0 で削除
                 // Model を要する IViewBuilder<TModel>.Build(TModel model) をコール
+#pragma warning disable 618
                 childMonoBehaviour.gameObject.GetComponents<IViewBuilder<TModel>>().ToList().ForEach(
+#pragma warning restore 618
                     (x) => {
                         x.Build(model);
                     }
                 );
+#endregion
             }
             return childView;
         }
@@ -96,6 +137,7 @@ namespace CAFU.Core.Presentation.View {
         }
 
         [Obsolete("Please use `AddChildView()` instead of `InstantiateChild()`.")]
+        // ReSharper disable once UnusedParameter.Global
         public static TView InstantiateChild<TView, TModel>(this IView self, GameObject prefab, TModel model, Transform parent = null)
             where TView : IView
             where TModel : IModel {
