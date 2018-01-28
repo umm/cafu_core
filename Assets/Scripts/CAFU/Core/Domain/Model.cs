@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Domain {
 
@@ -14,6 +15,20 @@ namespace CAFU.Core.Domain {
     /// </summary>
     /// <inheritdoc cref="IModel" />
     public interface IListModel<TModel> : IModel, IList<TModel> {
+
+    }
+
+    public interface IModelFactory<out TModel> where TModel : IModel {
+
+        TModel Factory();
+
+    }
+
+    public class DefaultModelFactory<TModel> : IModelFactory<TModel> where TModel : IModel, new() {
+
+        public TModel Factory() {
+            return new TModel();
+        }
 
     }
 

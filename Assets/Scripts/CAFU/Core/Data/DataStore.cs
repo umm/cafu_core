@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
+// ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Data {
 
@@ -17,6 +18,20 @@ namespace CAFU.Core.Data {
     }
 
     public interface IScriptableObjectDataStoreInStreamingAssets : IScriptableObjectDataStore {
+    }
+
+    public interface IDataStoreFactory<out TDataStore> where TDataStore : IDataStore {
+
+        TDataStore Factory();
+
+    }
+
+    public class DefaultDataStoreFactory<TDataStore> : IDataStoreFactory<TDataStore> where TDataStore : IDataStore, new() {
+
+        public TDataStore Factory() {
+            return new TDataStore();
+        }
+
     }
 
     public static class ScriptableObjectDataStoreExtension {
