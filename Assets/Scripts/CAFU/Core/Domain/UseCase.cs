@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+// ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Domain {
 
@@ -7,22 +8,59 @@ namespace CAFU.Core.Domain {
 
     }
 
+    public interface IUseCaseFactory<out TUseCase> where TUseCase : IUseCase {
+
+        TUseCase Factory();
+
+    }
+
     public interface IUseCaseAsSingleton : IUseCase {
 
     }
 
+    public class DefaultUseCaseFactory<TUseCase> : IUseCaseFactory<TUseCase> where TUseCase : IUseCase, new() {
+
+        public TUseCase Factory() {
+            return new TUseCase();
+        }
+
+    }
+
+    public class SingletonUseCaseFactory<TUseCase> : IUseCaseFactory<TUseCase> where TUseCase : IUseCaseAsSingleton, new() {
+
+        private static TUseCase instance;
+
+        private static TUseCase Instance {
+            get {
+                if (instance == null) {
+                    instance = new TUseCase();
+                }
+                return instance;
+            }
+        }
+
+        public TUseCase Factory() {
+            return Instance;
+        }
+
+    }
+
+    [Obsolete("Please use IUseCaseFactory<TUseCase> instead of this interface.")]
     public interface IUseCaseBuilder {
 
         void Build();
 
     }
 
+    [Obsolete("Please use DefaultUseCaseFactory, SingletonUseCaseFactory instead of this class.")]
     public static class UseCaseFactory {
 
         private static Dictionary<Type, IUseCase> instanceDictionary;
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static TUseCase CreateInstance<TUseCase>() where TUseCase : class, IUseCase, new() {
             TUseCase instance = new TUseCase();
+            // ReSharper disable once SuspiciousTypeConversion.Global
             IUseCaseBuilder builder = instance as IUseCaseBuilder;
             if (builder != default(IUseCaseBuilder)) {
                 builder.Build();

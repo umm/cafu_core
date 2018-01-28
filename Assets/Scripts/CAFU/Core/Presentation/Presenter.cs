@@ -29,7 +29,7 @@ namespace CAFU.Core.Presentation {
 
     }
 
-    [Obsolete("Please use IPresenterFactory<TPresenter> instead of this.")]
+    [Obsolete("Please use IPresenterFactory<TPresenter> instead of this interface.")]
     public interface IPresenterBuilder {
 
         void Build();
