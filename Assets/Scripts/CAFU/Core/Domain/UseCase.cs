@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using CAFU.Core.Utility;
+
 // ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Domain {
@@ -18,30 +20,11 @@ namespace CAFU.Core.Domain {
 
     }
 
-    public class DefaultUseCaseFactory<TUseCase> : IUseCaseFactory<TUseCase> where TUseCase : IUseCase, new() {
-
-        public TUseCase Create() {
-            return new TUseCase();
-        }
+    public class DefaultUseCaseFactory<TUseCase> : DefaultFactory<TUseCase>, IUseCaseFactory<TUseCase> where TUseCase : IUseCase, new() {
 
     }
 
-    public class SingletonUseCaseFactory<TUseCase> : IUseCaseFactory<TUseCase> where TUseCase : IUseCaseAsSingleton, new() {
-
-        private static TUseCase instance;
-
-        private static TUseCase Instance {
-            get {
-                if (instance == null) {
-                    instance = new TUseCase();
-                }
-                return instance;
-            }
-        }
-
-        public TUseCase Create() {
-            return Instance;
-        }
+    public class DefaultSingletonUseCaseFactory<TUseCase> : DefaultSingletonFactory<TUseCase>, IUseCaseFactory<TUseCase> where TUseCase : IUseCaseAsSingleton, new() {
 
     }
 

@@ -83,11 +83,11 @@ namespace CAFU.Core.Presentation {
             // Model 不要の IViewBuilder.Build() をコール
 #pragma warning disable 618
             childMonoBehaviour.gameObject.GetComponents<IViewBuilder>().ToList().ForEach(
-#pragma warning restore 618
                 (x) => {
                     x.Build();
                 }
             );
+#pragma warning restore 618
 #endregion
             if (model != null) {
                 // Model を要する IModelInjectableView.Inject() をコール
@@ -100,11 +100,11 @@ namespace CAFU.Core.Presentation {
                 // Model を要する IViewBuilder<TModel>.Build(TModel model) をコール
 #pragma warning disable 618
                 childMonoBehaviour.gameObject.GetComponents<IViewBuilder<TModel>>().ToList().ForEach(
-#pragma warning restore 618
                     (x) => {
                         x.Build(model);
                     }
                 );
+#pragma warning restore 618
 #endregion
             }
             return childView;
@@ -146,6 +146,8 @@ namespace CAFU.Core.Presentation {
             if (monoBehaviour == default(MonoBehaviour)) {
                 throw new InvalidOperationException(string.Format("'{0}' is not inheritance MonoBehaviour.", typeof(TView).FullName));
             }
+#region v2.0.0 で削除
+#pragma warning disable 618
             // Model 不要の IViewBuilder.Build() をコール
             monoBehaviour.gameObject.GetComponents<IViewBuilder>().ToList().ForEach(
                 (x) => {
@@ -158,6 +160,8 @@ namespace CAFU.Core.Presentation {
                     x.Build(model);
                 }
             );
+#pragma warning restore 618
+            #endregion
             return childView;
         }
 

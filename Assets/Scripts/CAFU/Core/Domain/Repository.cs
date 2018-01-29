@@ -1,4 +1,6 @@
 ﻿using System;
+using CAFU.Core.Utility;
+
 // ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Domain {
@@ -12,11 +14,7 @@ namespace CAFU.Core.Domain {
 
     }
 
-    public class DefaultRepositoryFactory<TRepository> : IRepositoryFactory<TRepository> where TRepository : IRepository, new() {
-
-        public TRepository Create() {
-            return new TRepository();
-        }
+    public class DefaultRepositoryFactory<TRepository> : DefaultFactory<TRepository>, IRepositoryFactory<TRepository> where TRepository : IRepository, new() {
 
     }
 

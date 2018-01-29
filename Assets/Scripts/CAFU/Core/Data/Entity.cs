@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using CAFU.Core.Utility;
+
 // ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Data {
@@ -24,11 +26,7 @@ namespace CAFU.Core.Data {
 
     }
 
-    public class DefaultEntityFactory<TEntity> : IEntityFactory<TEntity> where TEntity : IEntity, new() {
-
-        public TEntity Create() {
-            return new TEntity();
-        }
+    public class DefaultEntityFactory<TEntity> : DefaultFactory<TEntity>, IEntityFactory<TEntity> where TEntity : IEntity, new() {
 
     }
 

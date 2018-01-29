@@ -1,4 +1,6 @@
 ﻿using System;
+using CAFU.Core.Utility;
+
 // ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Presentation {
@@ -13,11 +15,7 @@ namespace CAFU.Core.Presentation {
 
     }
 
-    public class DefaultPresenterFactory<TPresenter> : IPresenterFactory<TPresenter> where TPresenter : IPresenter, new() {
-
-        public TPresenter Create() {
-            return new TPresenter();
-        }
+    public class DefaultPresenterFactory<TPresenter> : DefaultFactory<TPresenter>, IPresenterFactory<TPresenter> where TPresenter : IPresenter, new() {
 
     }
 

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
+using CAFU.Core.Utility;
 using UnityEngine;
 // ReSharper disable UnusedMember.Global
 
@@ -26,11 +27,11 @@ namespace CAFU.Core.Data {
 
     }
 
-    public class DefaultDataStoreFactory<TDataStore> : IDataStoreFactory<TDataStore> where TDataStore : IDataStore, new() {
+    public class DefaultDataStoreFactory<TDataStore> : DefaultFactory<TDataStore>, IDataStoreFactory<TDataStore> where TDataStore : IDataStore, new() {
 
-        public TDataStore Create() {
-            return new TDataStore();
-        }
+    }
+
+    public class DefaultSingletonDataStoreFactory<TDataStore> : DefaultSingletonFactory<TDataStore>, IDataStoreFactory<TDataStore> where TDataStore : IDataStore, new() {
 
     }
 

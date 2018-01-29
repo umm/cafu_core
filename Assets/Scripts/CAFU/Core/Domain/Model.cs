@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using CAFU.Core.Utility;
+
 // ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Domain {
@@ -24,11 +26,7 @@ namespace CAFU.Core.Domain {
 
     }
 
-    public class DefaultModelFactory<TModel> : IModelFactory<TModel> where TModel : IModel, new() {
-
-        public TModel Create() {
-            return new TModel();
-        }
+    public class DefaultModelFactory<TModel> : DefaultFactory<TModel>, IModelFactory<TModel> where TModel : IModel, new() {
 
     }
 
