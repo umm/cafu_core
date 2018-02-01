@@ -1,9 +1,34 @@
 ﻿using CAFU.Core.Data.Entity;
 using UniRx;
+// ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Domain.Translator {
 
-    public interface IModelTranslator<in TEntity1, out TModel>
+    public interface ITranslator {
+
+    }
+
+    public interface IAsyncTranslator {
+
+    }
+
+    public interface IModelTranslator : ITranslator {
+
+    }
+
+    public interface IEntityTranslator : ITranslator {
+
+    }
+
+    public interface IAsyncModelTranslator : IAsyncTranslator, IModelTranslator {
+
+    }
+
+    public interface IAsyncEntityTranslator : IAsyncTranslator, IEntityTranslator {
+
+    }
+
+    public interface IModelTranslator<in TEntity1, out TModel> : IModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -11,7 +36,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IModelTranslator<in TEntity1, in TEntity2, out TModel>
+    public interface IModelTranslator<in TEntity1, in TEntity2, out TModel> : IModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -19,7 +44,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, out TModel>
+    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, out TModel> : IModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -27,7 +52,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, out TModel>
+    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, out TModel> : IModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -35,7 +60,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, out TModel>
+    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, out TModel> : IModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -43,7 +68,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, out TModel>
+    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, out TModel> : IModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -51,7 +76,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, out TModel>
+    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, out TModel> : IModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -59,7 +84,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, out TModel>
+    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, out TModel> : IModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -67,7 +92,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, in TEntity9, out TModel>
+    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, in TEntity9, out TModel> : IModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -75,7 +100,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, in TEntity9, in TEntity10, out TModel>
+    public interface IModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, in TEntity9, in TEntity10, out TModel> : IModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -83,15 +108,15 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IEntityTranslator<in TModel1, out TEntity>
+    public interface IEntityTranslator<in TModel1, out TEntity> : IEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
-        TEntity Translate(TModel1 Model);
+        TEntity Translate(TModel1 model);
 
     }
 
-    public interface IEntityTranslator<in TModel1, in TModel2, out TEntity>
+    public interface IEntityTranslator<in TModel1, in TModel2, out TEntity> : IEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -99,7 +124,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, out TEntity>
+    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, out TEntity> : IEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -107,7 +132,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IEntity<in TModel1, in TModel2, in TModel3, in TModel4, out TEntity>
+    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, out TEntity> : IEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -115,7 +140,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, out TEntity>
+    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, out TEntity> : IEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -123,7 +148,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, out TEntity>
+    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, out TEntity> : IEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -131,7 +156,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, out TEntity>
+    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, out TEntity> : IEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -139,7 +164,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, out TEntity>
+    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, out TEntity> : IEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -147,7 +172,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, in TModel9, out TEntity>
+    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, in TModel9, out TEntity> : IEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -155,7 +180,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, in TModel9, in TModel10, out TEntity>
+    public interface IEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, in TModel9, in TModel10, out TEntity> : IEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -163,7 +188,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncModelTranslator<in TEntity1, TModel>
+    public interface IAsyncModelTranslator<in TEntity1, TModel> : IAsyncModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -171,7 +196,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, TModel>
+    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, TModel> : IAsyncModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -179,7 +204,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, TModel>
+    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, TModel> : IAsyncModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -187,7 +212,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, TModel>
+    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, TModel> : IAsyncModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -195,7 +220,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, TModel>
+    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, TModel> : IAsyncModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -203,7 +228,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, TModel>
+    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, TModel> : IAsyncModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -211,7 +236,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, TModel>
+    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, TModel> : IAsyncModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -219,7 +244,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, TModel>
+    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, TModel> : IAsyncModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -227,7 +252,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, in TEntity9, TModel>
+    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, in TEntity9, TModel> : IAsyncModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -235,7 +260,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, in TEntity9, in TEntity10, TModel>
+    public interface IAsyncModelTranslator<in TEntity1, in TEntity2, in TEntity3, in TEntity4, in TEntity5, in TEntity6, in TEntity7, in TEntity8, in TEntity9, in TEntity10, TModel> : IAsyncModelTranslator
         where TEntity1 : IEntity
         where TModel : Model.IModel {
 
@@ -243,15 +268,15 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncEntityTranslator<in TModel1, TEntity>
+    public interface IAsyncEntityTranslator<in TModel1, TEntity> : IAsyncEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
-        IObservable<TEntity> TranslateAsObservable(TModel1 Model);
+        IObservable<TEntity> TranslateAsObservable(TModel1 model);
 
     }
 
-    public interface IAsyncEntityTranslator<in TModel1, in TModel2, TEntity>
+    public interface IAsyncEntityTranslator<in TModel1, in TModel2, TEntity> : IAsyncEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -259,7 +284,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, TEntity>
+    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, TEntity> : IAsyncEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -267,7 +292,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, TEntity>
+    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, TEntity> : IAsyncEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -275,7 +300,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, TEntity>
+    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, TEntity> : IAsyncEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -283,7 +308,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, TEntity>
+    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, TEntity> : IAsyncEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -291,7 +316,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, TEntity>
+    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, TEntity> : IAsyncEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -299,7 +324,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, TEntity>
+    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, TEntity> : IAsyncEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -307,7 +332,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, in TModel9, TEntity>
+    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, in TModel9, TEntity> : IAsyncEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 
@@ -315,7 +340,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, in TModel9, in TModel10, TEntity>
+    public interface IAsyncEntityTranslator<in TModel1, in TModel2, in TModel3, in TModel4, in TModel5, in TModel6, in TModel7, in TModel8, in TModel9, in TModel10, TEntity> : IAsyncEntityTranslator
         where TModel1 : Model.IModel
         where TEntity : IEntity {
 

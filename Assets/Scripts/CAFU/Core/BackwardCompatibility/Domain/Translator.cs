@@ -1,8 +1,9 @@
-﻿using CAFU.Core.Data;
-using UniRx;
+﻿using System;
+using CAFU.Core.Data;
 
 namespace CAFU.Core.Domain {
 
+    [Obsolete("Please use CAFU.Core.Domain.Translator.I***Translator<> instead of this interface.")]
     public interface ITranslator<TEntity, TModel>
         where TEntity : IEntity
         where TModel : IModel {
@@ -11,9 +12,9 @@ namespace CAFU.Core.Domain {
 
         TEntity Translate(TModel model);
 
-        IObservable<TModel> TranslateAsync(TEntity entity);
+        UniRx.IObservable<TModel> TranslateAsync(TEntity entity);
 
-        IObservable<TEntity> TranslateAsync(TModel model);
+        UniRx.IObservable<TEntity> TranslateAsync(TModel model);
 
     }
 
