@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using CAFU.Core.Utility;
 using UnityEngine;
+
 // ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Data {

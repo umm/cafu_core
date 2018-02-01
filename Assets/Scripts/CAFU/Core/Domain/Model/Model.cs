@@ -3,7 +3,7 @@ using CAFU.Core.Utility;
 
 // ReSharper disable UnusedMember.Global
 
-namespace CAFU.Core.Domain {
+namespace CAFU.Core.Domain.Model {
 
     /// <summary>
     /// Model インタフェース

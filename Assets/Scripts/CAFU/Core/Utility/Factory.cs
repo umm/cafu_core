@@ -2,7 +2,7 @@
 
     public class DefaultFactory<T> where T : new() {
 
-        public T Create() {
+        public virtual T Create() {
             return new T();
         }
 
@@ -21,7 +21,7 @@
             }
         }
 
-        public T Create() {
+        public virtual T Create() {
             return Instance;
         }
 

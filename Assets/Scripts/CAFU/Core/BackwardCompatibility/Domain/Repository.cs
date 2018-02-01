@@ -1,21 +1,8 @@
 ﻿using System;
-using CAFU.Core.Utility;
-
-// ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Domain {
 
-    public interface IRepository {
-    }
-
-    public interface IRepositoryFactory<out TRepository> where TRepository : IRepository {
-
-        TRepository Create();
-
-    }
-
-    public class DefaultRepositoryFactory<TRepository> : DefaultFactory<TRepository>, IRepositoryFactory<TRepository> where TRepository : IRepository, new() {
-
+    public interface IRepository : Repository.IRepository {
     }
 
     [Obsolete("Please use IRepositoryFactory<TUseCase> instead of this interface.")]
