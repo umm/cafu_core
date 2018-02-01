@@ -6,15 +6,15 @@ using Object = UnityEngine.Object;
 
 namespace CAFU.Core.Presentation.View {
 
-    [Obsolete("Please use MonoBehaviour.Awake() instead of IViewBuilder.Build().")]
+    [Obsolete("Please use MonoBehaviour.Awake() instead of this interface.")]
     public interface IViewBuilder {
 
         void Build();
 
     }
 
-    [Obsolete("Please use IInjectableView<TModel> instead of IViewBuilder<TModel>.")]
-    public interface IViewBuilder<in TModel> where TModel : IModel {
+    [Obsolete("Please use IInjectableView<TModel> instead of this interface.")]
+    public interface IViewBuilder<in TModel> where TModel : Domain.Model.IModel {
 
         void Build(TModel model);
 

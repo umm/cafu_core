@@ -2,6 +2,7 @@
 
 namespace CAFU.Core.Domain {
 
+    [Obsolete("Please use IRepository instead of this interface.")]
     public interface IRepository : Repository.IRepository {
     }
 

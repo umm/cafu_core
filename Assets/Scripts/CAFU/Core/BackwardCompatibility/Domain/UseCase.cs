@@ -3,10 +3,12 @@ using System.Collections.Generic;
 
 namespace CAFU.Core.Domain {
 
+    [Obsolete("Please use IUseCase instead of this interface.")]
     public interface IUseCase : UseCase.IUseCase {
 
     }
 
+    [Obsolete("Please use IUseCaseAsSingleton instead of this interface.")]
     public interface IUseCaseAsSingleton : UseCase.IUseCaseAsSingleton, IUseCase {
 
     }

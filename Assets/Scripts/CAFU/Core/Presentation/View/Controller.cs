@@ -13,6 +13,10 @@ namespace CAFU.Core.Presentation.View {
 
     }
 
+    public abstract class Controller<TPresenter> : Controller<TPresenter, DefaultPresenterFactory<TPresenter>>
+        where TPresenter : IPresenter, new() {
+    }
+
     public abstract class Controller<TPresenter, TPresenterFactory> : ObservableLifecycleMonoBehaviour, IController
         where TPresenter : IPresenter, new()
         where TPresenterFactory : IPresenterFactory<TPresenter>, new() {

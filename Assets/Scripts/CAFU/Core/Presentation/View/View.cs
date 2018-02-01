@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using CAFU.Core.Domain;
+using CAFU.Core.Domain.Model;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

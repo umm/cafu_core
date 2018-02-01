@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 // ReSharper disable VirtualMemberNeverOverridden.Global
 
 namespace CAFU.Core {
@@ -18,16 +19,19 @@ namespace CAFU.Core {
 
 namespace CAFU.Core.Presentation {
 
+    [Obsolete("Please use CAFU.Core.Presentation.View.IController instead of this interface.")]
     public interface IViewController {
 
     }
 
+    [Obsolete("Please use CAFU.Core.Presentation.View.IController instead of this interface.")]
     public interface IViewControllerPresenter<out TPresenter> : IViewController {
 
         TPresenter Presenter { get; }
 
     }
 
+    [Obsolete("Please use CAFU.Core.Presentation.View.IController instead of this interface.")]
     public interface IViewControllerBuilder {
 
         void Build();
