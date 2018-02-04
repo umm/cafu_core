@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace CAFU.Core.Data {
 
+    [Obsolete("Please use CAFU.Core.Data.DataStore.IDataStore instead of this.")]
+    public interface IDataStore {
+    }
+
     // ReSharper disable once UnusedTypeParameter
     [Obsolete("Please use instead of this.")]
     public interface IScriptableObjectDataStoreHandler<T> where T : ScriptableObject {
@@ -69,6 +73,7 @@ namespace CAFU.Core.Data {
                 Debug.LogWarningFormat("ScriptableObject for type of '{0}' is already exists in '{1}'.", typeof(T).FullName, fullPath);
                 return;
             }
+            // ReSharper disable once AssignNullToNotNullAttribute
             if (!Directory.Exists(Path.GetDirectoryName(fullPath))) {
                 // ReSharper disable once AssignNullToNotNullAttribute
                 Directory.CreateDirectory(Path.GetDirectoryName(fullPath));

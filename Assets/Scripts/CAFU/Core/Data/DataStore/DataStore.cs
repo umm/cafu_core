@@ -5,7 +5,7 @@ using UnityEngine;
 
 // ReSharper disable UnusedMember.Global
 
-namespace CAFU.Core.Data {
+namespace CAFU.Core.Data.DataStore {
 
     public interface IDataStore {
     }
