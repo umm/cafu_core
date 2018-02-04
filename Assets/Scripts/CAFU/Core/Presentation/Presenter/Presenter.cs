@@ -2,7 +2,7 @@
 
 // ReSharper disable UnusedMember.Global
 
-namespace CAFU.Core.Presentation {
+namespace CAFU.Core.Presentation.Presenter {
 
     public interface IPresenter {
 

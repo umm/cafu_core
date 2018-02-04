@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CAFU.Core.Presentation.Presenter;
 using UniRx;
 
 // ReSharper disable VirtualMemberNeverOverridden.Global
@@ -9,19 +10,19 @@ namespace CAFU.Core.Presentation.View {
 
     public interface IController : IView {
 
-        IPresenter Presenter { get; set; }
+        Presenter.IPresenter Presenter { get; set; }
 
     }
 
     public abstract class Controller<TPresenter> : Controller<TPresenter, DefaultPresenterFactory<TPresenter>>
-        where TPresenter : IPresenter, new() {
+        where TPresenter : Presenter.IPresenter, new() {
     }
 
     public abstract class Controller<TPresenter, TPresenterFactory> : ObservableLifecycleMonoBehaviour, IController
-        where TPresenter : IPresenter, new()
+        where TPresenter : Presenter.IPresenter, new()
         where TPresenterFactory : IPresenterFactory<TPresenter>, new() {
 
-        IPresenter IController.Presenter { get; set; }
+        Presenter.IPresenter IController.Presenter { get; set; }
 
         protected override void OnAwake() {
             base.OnAwake();

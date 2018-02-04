@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CAFU.Core.Data;
+using CAFU.Core.Data.Entity;
 using UniRx;
 using UnityEngine;
 // ReSharper disable UnusedMember.Global

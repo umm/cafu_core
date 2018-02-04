@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CAFU.Core.Domain.Model;
+using CAFU.Core.Presentation.Presenter;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -31,11 +32,11 @@ namespace CAFU.Core.Presentation.View {
             return view.GetController().As<TController>();
         }
 
-        public static IPresenter GetPresenter(this IView view) {
+        public static Presenter.IPresenter GetPresenter(this IView view) {
             return view.GetController().Presenter;
         }
 
-        public static TPresenter GetPresenter<TPresenter>(this IView view) where TPresenter : class, IPresenter {
+        public static TPresenter GetPresenter<TPresenter>(this IView view) where TPresenter : class, Presenter.IPresenter {
             return view.GetPresenter().As<TPresenter>();
         }
 
