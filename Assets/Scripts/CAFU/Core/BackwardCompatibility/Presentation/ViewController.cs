@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 // ReSharper disable VirtualMemberNeverOverridden.Global
+#pragma warning disable 618
 
 namespace CAFU.Core {
 
@@ -41,13 +42,13 @@ namespace CAFU.Core.Presentation {
     // Singleton インスタンスを確定させるために、あらゆるクラスよりも先に Awake() が実行されて欲しいので [DefaultExecutionOrder(-1)] を設定
     // 一応簡単なコードで abstract クラスでも効くことは確認済
     [DefaultExecutionOrder(DefaultExecutionOrders.ViewController)]
-    public abstract class ViewControllerBase<TPresenter> : View.Controller<TPresenter, DefaultPresenterFactory<TPresenter>>,
+    public abstract class ViewControllerBase<TPresenter> : View.Controller<TPresenter, Presenter.DefaultPresenterFactory<TPresenter>>,
         IViewControllerPresenter<TPresenter>
         where TPresenter : IPresenter, new() {
 
         public TPresenter Presenter { get; protected set; }
 
-        protected virtual void Awake() {
+        protected override void Awake() {
             IViewControllerBuilder builder = this as IViewControllerBuilder;
             if (builder != default(IViewControllerBuilder)) {
                 builder.Build();
@@ -67,7 +68,7 @@ namespace CAFU.Core.Presentation {
             base.Awake();
         }
 
-        protected virtual void OnDestroy() {
+        protected override void OnDestroy() {
             Instance = null;
         }
 

@@ -3,6 +3,7 @@ using System.Linq;
 using CAFU.Core.Domain;
 using UnityEngine;
 using Object = UnityEngine.Object;
+#pragma warning disable 618
 
 namespace CAFU.Core.Presentation.View {
 

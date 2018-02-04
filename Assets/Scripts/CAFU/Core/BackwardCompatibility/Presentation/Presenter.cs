@@ -2,6 +2,11 @@
 
 namespace CAFU.Core.Presentation {
 
+    [Obsolete("Please use CAFU.Core.Presentation.Presenter.IPresenter instead of this interface.")]
+    public interface IPresenter : Presenter.IPresenter {
+
+    }
+
     [Obsolete("Please use IPresenterFactory<TPresenter> instead of this interface.")]
     public interface IPresenterBuilder {
 
