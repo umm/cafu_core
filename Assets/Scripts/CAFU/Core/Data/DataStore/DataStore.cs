@@ -32,7 +32,11 @@ namespace CAFU.Core.Data.DataStore {
 
     }
 
-    public class DefaultSingletonDataStoreFactory<TDataStore> : DefaultSingletonFactory<TDataStore>, IDataStoreFactory<TDataStore> where TDataStore : IDataStore, new() {
+    public class SceneDataStoreFactory<TDataStore> : IDataStoreFactory<TDataStore> where TDataStore : Object, IDataStore {
+
+        public TDataStore Create() {
+            return Object.FindObjectOfType<TDataStore>();
+        }
 
     }
 

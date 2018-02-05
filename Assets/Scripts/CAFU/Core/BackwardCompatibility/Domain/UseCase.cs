@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using CAFU.Core.Domain.UseCase;
+using CAFU.Core.Utility;
 
 namespace CAFU.Core.Domain {
 
@@ -11,7 +12,7 @@ namespace CAFU.Core.Domain {
     }
 
     [Obsolete("Please use IUseCaseAsSingleton instead of this interface.")]
-    public interface IUseCaseAsSingleton : UseCase.IUseCaseAsSingleton, IUseCase {
+    public interface IUseCaseAsSingleton : UseCase.ISingletonUseCase, IUseCase, ISingleton {
 
     }
 
@@ -43,7 +44,7 @@ namespace CAFU.Core.Domain {
             return instance;
         }
 
-        public static TUseCase GetOrCreateInstance<TUseCase>() where TUseCase : class, UseCase.IUseCaseAsSingleton, new() {
+        public static TUseCase GetOrCreateInstance<TUseCase>() where TUseCase : class, UseCase.ISingletonUseCase, new() {
             if (instanceDictionary == default(Dictionary<Type, UseCase.IUseCase>)) {
                 instanceDictionary = new Dictionary<Type, UseCase.IUseCase>();
             }
@@ -53,7 +54,7 @@ namespace CAFU.Core.Domain {
             return instanceDictionary[typeof(TUseCase)] as TUseCase;
         }
 
-        public static void DestroyInstance<TUseCase>() where TUseCase : class, UseCase.IUseCaseAsSingleton, new() {
+        public static void DestroyInstance<TUseCase>() where TUseCase : class, UseCase.ISingletonUseCase, new() {
             if (instanceDictionary == default(Dictionary<Type, UseCase.IUseCase>)) {
                 instanceDictionary = new Dictionary<Type, UseCase.IUseCase>();
             }

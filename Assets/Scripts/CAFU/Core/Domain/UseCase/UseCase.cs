@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CAFU.Core.Utility;
+﻿using CAFU.Core.Utility;
 
 // ReSharper disable UnusedMember.Global
 
@@ -10,7 +8,7 @@ namespace CAFU.Core.Domain.UseCase {
 
     }
 
-    public interface IUseCaseAsSingleton : IUseCase {
+    public interface ISingletonUseCase : IUseCase, ISingleton {
 
     }
 
@@ -21,10 +19,6 @@ namespace CAFU.Core.Domain.UseCase {
     }
 
     public class DefaultUseCaseFactory<TUseCase> : DefaultFactory<TUseCase>, IUseCaseFactory<TUseCase> where TUseCase : IUseCase, new() {
-
-    }
-
-    public class DefaultSingletonUseCaseFactory<TUseCase> : DefaultSingletonFactory<TUseCase>, IUseCaseFactory<TUseCase> where TUseCase : IUseCaseAsSingleton, new() {
 
     }
 

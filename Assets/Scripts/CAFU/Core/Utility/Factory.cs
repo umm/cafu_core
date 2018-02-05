@@ -1,14 +1,10 @@
 ﻿namespace CAFU.Core.Utility {
 
-    public class DefaultFactory<T> where T : new() {
-
-        public virtual T Create() {
-            return new T();
-        }
+    public interface ISingleton {
 
     }
 
-    public class DefaultSingletonFactory<T> where T : new() {
+    public class DefaultFactory<T> where T : new() {
 
         private static T instance;
 
@@ -22,7 +18,10 @@
         }
 
         public virtual T Create() {
-            return Instance;
+            if (typeof(ISingleton).IsAssignableFrom(typeof(T))) {
+                return Instance;
+            }
+            return new T();
         }
 
     }
