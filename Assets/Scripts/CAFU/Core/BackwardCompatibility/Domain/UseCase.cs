@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace CAFU.Core.Domain {
 
@@ -27,6 +28,11 @@ namespace CAFU.Core.Domain {
 
         // ReSharper disable once MemberCanBePrivate.Global
         public static TUseCase CreateInstance<TUseCase>() where TUseCase : class, IUseCase, new() {
+            Assembly assembly = Assembly.GetAssembly(typeof(TUseCase));
+            Type factoryType = assembly.GetType($"{typeof(TUseCase).FullName}+Factory");
+            if (factoryType != null) {
+                return ((IUseCaseFactory<TUseCase>)Activator.CreateInstance(factoryType)).Create();
+            }
             TUseCase instance = new TUseCase();
             // ReSharper disable once SuspiciousTypeConversion.Global
             IUseCaseBuilder builder = instance as IUseCaseBuilder;

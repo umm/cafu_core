@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using CAFU.Core.Presentation.Presenter;
 
 namespace CAFU.Core.Presentation {
 
@@ -18,6 +20,11 @@ namespace CAFU.Core.Presentation {
     public static class PresenterFactory {
 
         public static TPresenter CreateInstance<TPresenter>() where TPresenter : IPresenter, new() {
+            Assembly assembly = Assembly.GetAssembly(typeof(TPresenter));
+            Type factoryType = assembly.GetType($"{typeof(TPresenter).FullName}+Factory");
+            if (factoryType != null) {
+                return ((IPresenterFactory<TPresenter>)Activator.CreateInstance(factoryType)).Create();
+            }
             TPresenter instance = new TPresenter();
             // ReSharper disable once SuspiciousTypeConversion.Global
             IPresenterBuilder builder = instance as IPresenterBuilder;
