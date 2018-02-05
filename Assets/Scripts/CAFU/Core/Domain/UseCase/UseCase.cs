@@ -10,13 +10,13 @@ namespace CAFU.Core.Domain.UseCase {
 
     }
 
-    public interface IUseCaseFactory<out TUseCase> where TUseCase : IUseCase {
-
-        TUseCase Create();
+    public interface IUseCaseAsSingleton : IUseCase {
 
     }
 
-    public interface IUseCaseAsSingleton : IUseCase {
+    public interface IUseCaseFactory<out TUseCase> where TUseCase : IUseCase {
+
+        TUseCase Create();
 
     }
 

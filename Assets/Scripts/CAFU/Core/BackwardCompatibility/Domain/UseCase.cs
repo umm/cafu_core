@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using CAFU.Core.Domain.UseCase;
 
 namespace CAFU.Core.Domain {
 
@@ -24,10 +25,10 @@ namespace CAFU.Core.Domain {
     [Obsolete("Please use DefaultUseCaseFactory, SingletonUseCaseFactory instead of this class.")]
     public static class UseCaseFactory {
 
-        private static Dictionary<Type, IUseCase> instanceDictionary;
+        private static Dictionary<Type, UseCase.IUseCase> instanceDictionary;
 
         // ReSharper disable once MemberCanBePrivate.Global
-        public static TUseCase CreateInstance<TUseCase>() where TUseCase : class, IUseCase, new() {
+        public static TUseCase CreateInstance<TUseCase>() where TUseCase : class, UseCase.IUseCase, new() {
             Assembly assembly = Assembly.GetAssembly(typeof(TUseCase));
             Type factoryType = assembly.GetType($"{typeof(TUseCase).FullName}+Factory");
             if (factoryType != null) {
@@ -42,9 +43,9 @@ namespace CAFU.Core.Domain {
             return instance;
         }
 
-        public static TUseCase GetOrCreateInstance<TUseCase>() where TUseCase : class, IUseCaseAsSingleton, new() {
-            if (instanceDictionary == default(Dictionary<Type, IUseCase>)) {
-                instanceDictionary = new Dictionary<Type, IUseCase>();
+        public static TUseCase GetOrCreateInstance<TUseCase>() where TUseCase : class, UseCase.IUseCaseAsSingleton, new() {
+            if (instanceDictionary == default(Dictionary<Type, UseCase.IUseCase>)) {
+                instanceDictionary = new Dictionary<Type, UseCase.IUseCase>();
             }
             if (!instanceDictionary.ContainsKey(typeof(TUseCase))) {
                 instanceDictionary[typeof(TUseCase)] = CreateInstance<TUseCase>();
@@ -52,9 +53,9 @@ namespace CAFU.Core.Domain {
             return instanceDictionary[typeof(TUseCase)] as TUseCase;
         }
 
-        public static void DestroyInstance<TUseCase>() where TUseCase : class, IUseCaseAsSingleton, new() {
-            if (instanceDictionary == default(Dictionary<Type, IUseCase>)) {
-                instanceDictionary = new Dictionary<Type, IUseCase>();
+        public static void DestroyInstance<TUseCase>() where TUseCase : class, UseCase.IUseCaseAsSingleton, new() {
+            if (instanceDictionary == default(Dictionary<Type, UseCase.IUseCase>)) {
+                instanceDictionary = new Dictionary<Type, UseCase.IUseCase>();
             }
             if (instanceDictionary.ContainsKey(typeof(TUseCase))) {
                 instanceDictionary.Remove(typeof(TUseCase));

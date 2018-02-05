@@ -49,6 +49,7 @@ namespace CAFU.Core.Presentation {
         public TPresenter Presenter { get; protected set; }
 
         protected override void Awake() {
+            base.Awake();
             IViewControllerBuilder builder = this as IViewControllerBuilder;
             if (builder != default(IViewControllerBuilder)) {
                 builder.Build();
