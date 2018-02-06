@@ -1,6 +1,7 @@
 ﻿using System;
 using CAFU.Core.Domain.Repository;
 using CAFU.Core.Utility;
+#pragma warning disable 618
 
 namespace CAFU.Core.Domain {
 
