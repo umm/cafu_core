@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Reflection;
 using CAFU.Core.Domain.Repository;
+using CAFU.Core.Utility;
 
 namespace CAFU.Core.Domain {
 
@@ -18,19 +18,21 @@ namespace CAFU.Core.Domain {
     [Obsolete("Please use DefaultRepositoryFactory instead of this class.")]
     public static class RepositoryFactory {
 
-        public static TRepository CreateInstance<TRepository>() where TRepository : IRepository, new() {
-            Assembly assembly = Assembly.GetAssembly(typeof(TRepository));
-            Type factoryType = assembly.GetType($"{typeof(TRepository).FullName}+Factory");
-            if (factoryType != null) {
-                return ((IRepositoryFactory<TRepository>)Activator.CreateInstance(factoryType)).Create();
-            }
-            TRepository instance = new TRepository();
+        public static TRepository CreateInstance<TRepository>() where TRepository : class, Repository.IRepository, new() {
+            return Factory.InvokeCreate<TRepository>() ?? RepositoryFactory<TRepository>.Instance.Create();
+        }
+
+    }
+
+    public class RepositoryFactory<TRepository> : DefaultRepositoryFactory<RepositoryFactory<TRepository>, TRepository> where TRepository : Repository.IRepository, new() {
+
+        protected override void Initialize(TRepository instance) {
+            base.Initialize(instance);
             // ReSharper disable once SuspiciousTypeConversion.Global
             IRepositoryBuilder builder = instance as IRepositoryBuilder;
             if (builder != default(IRepositoryBuilder)) {
                 builder.Build();
             }
-            return instance;
         }
 
     }

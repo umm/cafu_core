@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Reflection;
 using CAFU.Core.Presentation.Presenter;
+using CAFU.Core.Utility;
 
 namespace CAFU.Core.Presentation {
 
@@ -19,19 +19,21 @@ namespace CAFU.Core.Presentation {
     [Obsolete("Please use DefaultPresenterFactory<TPresenter> instead of this class.")]
     public static class PresenterFactory {
 
-        public static TPresenter CreateInstance<TPresenter>() where TPresenter : IPresenter, new() {
-            Assembly assembly = Assembly.GetAssembly(typeof(TPresenter));
-            Type factoryType = assembly.GetType($"{typeof(TPresenter).FullName}+Factory");
-            if (factoryType != null) {
-                return ((IPresenterFactory<TPresenter>)Activator.CreateInstance(factoryType)).Create();
-            }
-            TPresenter instance = new TPresenter();
-            // ReSharper disable once SuspiciousTypeConversion.Global
+        public static TPresenter CreateInstance<TPresenter>() where TPresenter : class, IPresenter, new() {
+            return Factory.InvokeCreate<TPresenter>() ?? PresenterFactory<TPresenter>.Instance.Create();
+        }
+
+    }
+
+    [Obsolete("Please use DefaultPresenterFactory<TPresenter> instead of this class.")]
+    public class PresenterFactory<TPresenter> : DefaultPresenterFactory<PresenterFactory<TPresenter>, TPresenter> where TPresenter : IPresenter, new() {
+
+        protected override void Initialize(TPresenter instance) {
+            base.Initialize(instance);
             IPresenterBuilder builder = instance as IPresenterBuilder;
             if (builder != default(IPresenterBuilder)) {
                 builder.Build();
             }
-            return instance;
         }
 
     }

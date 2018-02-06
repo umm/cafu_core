@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using CAFU.Core.Domain.UseCase;
 using CAFU.Core.Utility;
+#pragma warning disable 618
 
 namespace CAFU.Core.Domain {
 
@@ -12,7 +12,7 @@ namespace CAFU.Core.Domain {
     }
 
     [Obsolete("Please use IUseCaseAsSingleton instead of this interface.")]
-    public interface IUseCaseAsSingleton : UseCase.ISingletonUseCase, IUseCase, ISingleton {
+    public interface IUseCaseAsSingleton : ISingletonUseCase, IUseCase {
 
     }
 
@@ -30,36 +30,32 @@ namespace CAFU.Core.Domain {
 
         // ReSharper disable once MemberCanBePrivate.Global
         public static TUseCase CreateInstance<TUseCase>() where TUseCase : class, UseCase.IUseCase, new() {
-            Assembly assembly = Assembly.GetAssembly(typeof(TUseCase));
-            Type factoryType = assembly.GetType($"{typeof(TUseCase).FullName}+Factory");
-            if (factoryType != null) {
-                return ((IUseCaseFactory<TUseCase>)Activator.CreateInstance(factoryType)).Create();
-            }
-            TUseCase instance = new TUseCase();
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            IUseCaseBuilder builder = instance as IUseCaseBuilder;
-            if (builder != default(IUseCaseBuilder)) {
-                builder.Build();
-            }
-            return instance;
+            return Factory.InvokeCreate<TUseCase>() ?? UseCaseFactory<TUseCase>.Instance.Create();
         }
 
-        public static TUseCase GetOrCreateInstance<TUseCase>() where TUseCase : class, UseCase.ISingletonUseCase, new() {
-            if (instanceDictionary == default(Dictionary<Type, UseCase.IUseCase>)) {
-                instanceDictionary = new Dictionary<Type, UseCase.IUseCase>();
-            }
-            if (!instanceDictionary.ContainsKey(typeof(TUseCase))) {
-                instanceDictionary[typeof(TUseCase)] = CreateInstance<TUseCase>();
-            }
-            return instanceDictionary[typeof(TUseCase)] as TUseCase;
+        public static TUseCase GetOrCreateInstance<TUseCase>() where TUseCase : class, ISingletonUseCase, new() {
+            return Factory.InvokeCreate<TUseCase>() ?? UseCaseFactory<TUseCase>.Instance.Create();
         }
 
-        public static void DestroyInstance<TUseCase>() where TUseCase : class, UseCase.ISingletonUseCase, new() {
+        public static void DestroyInstance<TUseCase>() where TUseCase : class, ISingletonUseCase, new() {
             if (instanceDictionary == default(Dictionary<Type, UseCase.IUseCase>)) {
                 instanceDictionary = new Dictionary<Type, UseCase.IUseCase>();
             }
             if (instanceDictionary.ContainsKey(typeof(TUseCase))) {
                 instanceDictionary.Remove(typeof(TUseCase));
+            }
+        }
+
+    }
+
+    public class UseCaseFactory<TUseCase> : DefaultUseCaseFactory<UseCaseFactory<TUseCase>, TUseCase> where TUseCase : UseCase.IUseCase, new() {
+
+        protected override void Initialize(TUseCase instance) {
+            base.Initialize(instance);
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            IUseCaseBuilder builder = instance as IUseCaseBuilder;
+            if (builder != default(IUseCaseBuilder)) {
+                builder.Build();
             }
         }
 
