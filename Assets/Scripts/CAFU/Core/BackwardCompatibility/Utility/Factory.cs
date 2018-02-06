@@ -1,0 +1,21 @@
+﻿using System;
+using System.Linq;
+using System.Reflection;
+
+namespace CAFU.Core.Utility {
+
+    public static class Factory {
+
+        public static T InvokeCreate<T>() where T : class {
+            Assembly assembly = Assembly.GetAssembly(typeof(T));
+            Type factoryType = assembly.GetType(string.Format("{0}+Factory", typeof(T).FullName));
+            if (factoryType == null) {
+                return null;
+            }
+            object factoryInstance = factoryType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy).First(x => x.Name == "Instance").GetValue(factoryType, null);
+            return (T)factoryType.GetMethod("Create", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy)?.Invoke(factoryInstance, null);
+        }
+
+    }
+
+}
