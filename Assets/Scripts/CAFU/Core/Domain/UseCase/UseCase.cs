@@ -18,7 +18,7 @@ namespace CAFU.Core.Domain.UseCase {
 
     }
 
-    public class DefaultUseCaseFactory<TUseCase> : DefaultFactory<TUseCase>, IUseCaseFactory<TUseCase> where TUseCase : IUseCase, new() {
+    public class DefaultUseCaseFactory<TFactory, TUseCase> : DefaultFactory<TFactory, TUseCase>, IUseCaseFactory<TUseCase> where TFactory : DefaultFactory<TFactory, TUseCase>, new() where TUseCase : IUseCase, new() {
 
     }
 

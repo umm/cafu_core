@@ -13,7 +13,7 @@ namespace CAFU.Core.Domain.Repository {
 
     }
 
-    public class DefaultRepositoryFactory<TRepository> : DefaultFactory<TRepository>, IRepositoryFactory<TRepository> where TRepository : IRepository, new() {
+    public class DefaultRepositoryFactory<TFactory, TRepository> : DefaultFactory<TFactory, TRepository>, IRepositoryFactory<TRepository> where TRepository : IRepository, new() where TFactory : DefaultFactory<TFactory, TRepository>, new() {
 
     }
 

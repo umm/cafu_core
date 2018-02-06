@@ -28,11 +28,11 @@ namespace CAFU.Core.Data.DataStore {
 
     }
 
-    public class DefaultDataStoreFactory<TDataStore> : DefaultFactory<TDataStore>, IDataStoreFactory<TDataStore> where TDataStore : IDataStore, new() {
+    public class DefaultDataStoreFactory<TFactory, TDataStore> : DefaultFactory<TFactory, TDataStore>, IDataStoreFactory<TDataStore> where TDataStore : IDataStore, new() where TFactory : DefaultFactory<TFactory, TDataStore>, new() {
 
     }
 
-    public class SceneDataStoreFactory<TDataStore> : IDataStoreFactory<TDataStore> where TDataStore : Object, IDataStore {
+    public class SceneDataStoreFactory<TFactory, TDataStore> : DefaultFactory<TFactory>, IDataStoreFactory<TDataStore> where TDataStore : Object, IDataStore where TFactory : DefaultFactory<TFactory>, new() {
 
         public TDataStore Create() {
             return Object.FindObjectOfType<TDataStore>();

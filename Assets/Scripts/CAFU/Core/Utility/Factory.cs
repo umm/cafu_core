@@ -4,24 +4,46 @@
 
     }
 
-    public class DefaultFactory<T> where T : new() {
+    public class DefaultFactory<TFactory> where TFactory : DefaultFactory<TFactory>, new() {
 
-        private static T instance;
+        private static TFactory instance;
 
-        private static T Instance {
+        public static TFactory Instance {
             get {
-                if (instance == null) {
-                    instance = new T();
+                if (instance == default(TFactory)) {
+                    instance = new TFactory();
                 }
                 return instance;
             }
         }
 
-        public virtual T Create() {
-            if (typeof(ISingleton).IsAssignableFrom(typeof(T))) {
-                return Instance;
+    }
+
+    public class DefaultFactory<TFactory, TTarget> : DefaultFactory<TFactory> where TFactory : DefaultFactory<TFactory, TTarget>, new() where TTarget : new() {
+
+        private static TTarget targetInstance;
+
+        private static TTarget TargetInstance {
+            get {
+                if (targetInstance == null) {
+                    targetInstance = new TTarget();
+                    Instance.Initialize(targetInstance);
+                }
+                return targetInstance;
             }
-            return new T();
+        }
+
+        public TTarget Create() {
+            if (typeof(ISingleton).IsAssignableFrom(typeof(TTarget))) {
+                return TargetInstance;
+            }
+            TTarget target = new TTarget();
+            this.Initialize(target);
+            return target;
+        }
+
+        protected virtual void Initialize(TTarget instance) {
+            // Do nothing.
         }
 
     }

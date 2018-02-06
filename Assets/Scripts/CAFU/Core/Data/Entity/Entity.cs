@@ -26,7 +26,7 @@ namespace CAFU.Core.Data.Entity {
 
     }
 
-    public class DefaultEntityFactory<TEntity> : DefaultFactory<TEntity>, IEntityFactory<TEntity> where TEntity : IEntity, new() {
+    public class DefaultEntityFactory<TFactory, TEntity> : DefaultFactory<TFactory, TEntity>, IEntityFactory<TEntity> where TEntity : IEntity, new() where TFactory : DefaultFactory<TFactory, TEntity>, new() {
 
     }
 
