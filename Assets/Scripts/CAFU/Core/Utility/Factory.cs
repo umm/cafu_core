@@ -1,4 +1,5 @@
-﻿namespace CAFU.Core.Utility {
+﻿// ReSharper disable UnusedMember.Global
+namespace CAFU.Core.Utility {
 
     public interface ISingleton {
 
@@ -31,6 +32,9 @@
                 }
                 return targetInstance;
             }
+            set {
+                targetInstance = value;
+            }
         }
 
         public TTarget Create() {
@@ -40,6 +44,12 @@
             TTarget target = new TTarget();
             this.Initialize(target);
             return target;
+        }
+
+        public void Destroy() {
+            if (typeof(ISingleton).IsAssignableFrom(typeof(TTarget))) {
+                TargetInstance = default(TTarget);
+            }
         }
 
         protected virtual void Initialize(TTarget instance) {
