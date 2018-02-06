@@ -13,7 +13,11 @@ namespace CAFU.Core.Utility {
                 return null;
             }
             object factoryInstance = factoryType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy).First(x => x.Name == "Instance").GetValue(factoryType, null);
-            return (T)factoryType.GetMethod("Create", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy)?.Invoke(factoryInstance, null);
+            MethodInfo methodInfo = factoryType.GetMethod("Create", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            if (methodInfo == null) {
+                return null;
+            }
+            return (T)methodInfo.Invoke(factoryInstance, null);
         }
 
     }
