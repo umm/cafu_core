@@ -8,6 +8,10 @@ namespace CAFU.Core.Domain.Repository {
 
     }
 
+    public interface ISingletonRepository : IRepository, ISingleton {
+
+    }
+
     public interface IRepositoryFactory<out TRepository> : IFactory<TRepository> where TRepository : IRepository {
 
     }
