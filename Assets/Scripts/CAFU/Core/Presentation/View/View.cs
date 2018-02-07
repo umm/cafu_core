@@ -51,6 +51,9 @@ namespace CAFU.Core.Presentation.View {
             if (childMonoBehaviour == default(MonoBehaviour)) {
                 throw new InvalidOperationException(string.Format("'{0}' is not inheritance MonoBehaviour.", typeof(TView).FullName));
             }
+            if (childView is IInjectableView<TModel>) {
+                ((IInjectableView<TModel>)childView).Inject(model);
+            }
 
 #region v2.0.0 で消す
 #pragma warning disable 618
