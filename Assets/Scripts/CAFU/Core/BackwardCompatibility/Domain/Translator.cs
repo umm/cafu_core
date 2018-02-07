@@ -5,8 +5,8 @@ namespace CAFU.Core.Domain {
 
     [Obsolete("Please use CAFU.Core.Domain.Translator.I***Translator<> instead of this interface.")]
     public interface ITranslator<TEntity, TModel>
-        where TEntity : IEntity
-        where TModel : IModel {
+        where TEntity : Data.Entity.IEntity
+        where TModel : Model.IModel {
 
         TModel Translate(TEntity entity);
 
