@@ -12,11 +12,19 @@ namespace CAFU.Core.Data.Entity {
 
     }
 
+    public interface ISingletonEntity : IEntity, ISingleton {
+
+    }
+
     /// <summary>
     /// ListEntity インタフェース
     /// </summary>
     /// <inheritdoc cref="IEntity" />
     public interface IListEntity<TEntity> : IEntity, IList<TEntity> {
+
+    }
+
+    public interface ISingletonListEntity<TEntity> : IListEntity<TEntity>, ISingleton {
 
     }
 

@@ -10,6 +10,10 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
+    public interface ISingletonTranslator : ITranslator, ISingleton {
+
+    }
+
     public interface IAsyncTranslator {
 
     }

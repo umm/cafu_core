@@ -12,11 +12,19 @@ namespace CAFU.Core.Domain.Model {
 
     }
 
+    public interface ISingletonModel : IModel, ISingleton {
+
+    }
+
     /// <summary>
     /// ListModel インタフェース
     /// </summary>
     /// <inheritdoc cref="IModel" />
     public interface IListModel<TModel> : IModel, IList<TModel> {
+
+    }
+
+    public interface ISingletonListModel<TModel> : IListModel<TModel>, ISingleton {
 
     }
 

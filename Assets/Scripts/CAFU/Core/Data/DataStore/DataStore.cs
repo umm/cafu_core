@@ -11,6 +11,10 @@ namespace CAFU.Core.Data.DataStore {
 
     }
 
+    public interface ISingletonDataStore : IDataStore, ISingleton {
+
+    }
+
     public interface IScriptableObjectDataStore : IDataStore {
 
     }
