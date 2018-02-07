@@ -1,6 +1,7 @@
 ﻿using CAFU.Core.Data.Entity;
 using CAFU.Core.Utility;
 using UniRx;
+
 // ReSharper disable UnusedMember.Global
 
 namespace CAFU.Core.Domain.Translator {
@@ -349,13 +350,18 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public interface ITranslatorFactory<out TTranslator> where TTranslator : ITranslator {
-
-        TTranslator Create();
+    public interface ITranslatorFactory<out TTranslator> : IFactory<TTranslator> where TTranslator : ITranslator {
 
     }
 
-    public class DefaultTranslatorFactory<TFactory, TTranslator> : DefaultFactory<TFactory, TTranslator>, ITranslatorFactory<TTranslator> where TFactory : DefaultFactory<TFactory, TTranslator>, new() where TTranslator : ITranslator, new() {
+    public class DefaultTranslatorFactory<TTranslator> : DefaultTranslatorFactory<DefaultTranslatorFactory<TTranslator>, TTranslator>
+        where TTranslator : ITranslator, new() {
+
+    }
+
+    public class DefaultTranslatorFactory<TFactory, TTranslator> : DefaultFactory<TFactory, TTranslator>, ITranslatorFactory<TTranslator>
+        where TFactory : DefaultFactory<TFactory, TTranslator>, new()
+        where TTranslator : ITranslator, new() {
 
     }
 

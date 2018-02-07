@@ -5,22 +5,48 @@ namespace CAFU.Core.Utility {
 
     }
 
-    public class DefaultFactory<TFactory> where TFactory : DefaultFactory<TFactory>, new() {
+//    public class DefaultFactory<TFactory> where TFactory : DefaultFactory<TFactory>, new() {
+//
+//        private static TFactory instance;
+//
+//        public static TFactory Instance {
+//            get {
+//                if (instance == default(TFactory)) {
+//                    instance = new TFactory();
+//                }
+//                return instance;
+//            }
+//        }
+//
+//    }
 
-        private static TFactory instance;
+    public interface IFactory {
+
+    }
+
+    public interface IFactory<out TTarget> : IFactory {
+
+        TTarget Create();
+
+    }
+
+    public class SingletonFactory<TFactory> : IFactory where TFactory : SingletonFactory<TFactory>, new() {
+
+        // Initialize メソッドで同名の引数を用いるためフィールド側を変更しています
+        private static TFactory factoryInstance;
 
         public static TFactory Instance {
             get {
-                if (instance == default(TFactory)) {
-                    instance = new TFactory();
+                if (factoryInstance == default(TFactory)) {
+                    factoryInstance = new TFactory();
                 }
-                return instance;
+                return factoryInstance;
             }
         }
 
     }
 
-    public class DefaultFactory<TFactory, TTarget> : DefaultFactory<TFactory> where TFactory : DefaultFactory<TFactory, TTarget>, new() where TTarget : new() {
+    public class DefaultFactory<TFactory, TTarget> : SingletonFactory<TFactory>, IFactory<TTarget> where TFactory : DefaultFactory<TFactory, TTarget>, new() where TTarget : new() {
 
         private static TTarget targetInstance;
 

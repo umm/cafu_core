@@ -8,13 +8,18 @@ namespace CAFU.Core.Presentation.Presenter {
 
     }
 
-    public interface IPresenterFactory<out TPresenter> where TPresenter : IPresenter {
-
-        TPresenter Create();
+    public interface IPresenterFactory<out TPresenter> : IFactory<TPresenter> where TPresenter : IPresenter {
 
     }
 
-    public class DefaultPresenterFactory<TFactory, TPresenter> : DefaultFactory<TFactory, TPresenter>, IPresenterFactory<TPresenter> where TPresenter : IPresenter, new() where TFactory : DefaultFactory<TFactory, TPresenter>, new() {
+    public class DefaultPresenterFactory<TPresenter> : DefaultPresenterFactory<DefaultPresenterFactory<TPresenter>, TPresenter>
+        where TPresenter : IPresenter, new() {
+
+    }
+
+    public class DefaultPresenterFactory<TFactory, TPresenter> : DefaultFactory<TFactory, TPresenter>, IPresenterFactory<TPresenter>
+        where TFactory : DefaultFactory<TFactory, TPresenter>, new()
+        where TPresenter : IPresenter, new() {
 
     }
 

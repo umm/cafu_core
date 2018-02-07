@@ -8,31 +8,43 @@ using UnityEngine;
 namespace CAFU.Core.Data.DataStore {
 
     public interface IDataStore {
+
     }
 
     public interface IScriptableObjectDataStore : IDataStore {
+
     }
 
     public interface IScriptableObjectDataStoreInScene : IScriptableObjectDataStore {
+
     }
 
     public interface IScriptableObjectDataStoreInResources : IScriptableObjectDataStore {
+
     }
 
     public interface IScriptableObjectDataStoreInStreamingAssets : IScriptableObjectDataStore {
-    }
-
-    public interface IDataStoreFactory<out TDataStore> where TDataStore : IDataStore {
-
-        TDataStore Create();
 
     }
 
-    public class DefaultDataStoreFactory<TFactory, TDataStore> : DefaultFactory<TFactory, TDataStore>, IDataStoreFactory<TDataStore> where TDataStore : IDataStore, new() where TFactory : DefaultFactory<TFactory, TDataStore>, new() {
+    public interface IDataStoreFactory<out TDataStore> : IFactory<TDataStore> where TDataStore : IDataStore {
 
     }
 
-    public class SceneDataStoreFactory<TFactory, TDataStore> : DefaultFactory<TFactory>, IDataStoreFactory<TDataStore> where TDataStore : Object, IDataStore where TFactory : DefaultFactory<TFactory>, new() {
+    public class DefaultDataStoreFactory<TDataStore> : DefaultDataStoreFactory<DefaultDataStoreFactory<TDataStore>, TDataStore>
+        where TDataStore : IDataStore, new() {
+
+    }
+
+    public class DefaultDataStoreFactory<TFactory, TDataStore> : DefaultFactory<TFactory, TDataStore>, IDataStoreFactory<TDataStore>
+        where TFactory : DefaultFactory<TFactory, TDataStore>, new()
+        where TDataStore : IDataStore, new() {
+
+    }
+
+    public class SceneDataStoreFactory<TFactory, TDataStore> : SingletonFactory<TFactory>, IDataStoreFactory<TDataStore>
+        where TFactory : SceneDataStoreFactory<TFactory, TDataStore>, IFactory<TDataStore>, new()
+        where TDataStore : Object, IDataStore {
 
         public TDataStore Create() {
             return Object.FindObjectOfType<TDataStore>();

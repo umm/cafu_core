@@ -12,13 +12,18 @@ namespace CAFU.Core.Domain.UseCase {
 
     }
 
-    public interface IUseCaseFactory<out TUseCase> where TUseCase : IUseCase {
-
-        TUseCase Create();
+    public interface IUseCaseFactory<out TUseCase> : IFactory<TUseCase> where TUseCase : IUseCase {
 
     }
 
-    public class DefaultUseCaseFactory<TFactory, TUseCase> : DefaultFactory<TFactory, TUseCase>, IUseCaseFactory<TUseCase> where TFactory : DefaultFactory<TFactory, TUseCase>, new() where TUseCase : IUseCase, new() {
+    public class DefaultUseCaseFactory<TUseCase> : DefaultUseCaseFactory<DefaultUseCaseFactory<TUseCase>, TUseCase>
+        where TUseCase : IUseCase, new() {
+
+    }
+
+    public class DefaultUseCaseFactory<TFactory, TUseCase> : DefaultFactory<TFactory, TUseCase>, IUseCaseFactory<TUseCase>
+        where TFactory : DefaultFactory<TFactory, TUseCase>, new()
+        where TUseCase : IUseCase, new() {
 
     }
 
