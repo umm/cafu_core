@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using CAFU.Core.Domain.Model;
-using CAFU.Core.Presentation.Presenter;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -23,22 +22,6 @@ namespace CAFU.Core.Presentation.View {
     }
 
     public static class ViewExtension {
-
-        public static IController GetController(this IView view) {
-            return ControllerInstanceManager.Instance.Get(view.GetType().Namespace);
-        }
-
-        public static TController GetController<TController>(this IView view) where TController : class, IController {
-            return view.GetController().As<TController>();
-        }
-
-        public static Presenter.IPresenter GetPresenter(this IView view) {
-            return view.GetController().Presenter;
-        }
-
-        public static TPresenter GetPresenter<TPresenter>(this IView view) where TPresenter : class, Presenter.IPresenter {
-            return view.GetPresenter().As<TPresenter>();
-        }
 
         public static IView AddChildView(this Transform transform, GameObject prefab) {
             return transform.AddChildView<IView>(prefab);
