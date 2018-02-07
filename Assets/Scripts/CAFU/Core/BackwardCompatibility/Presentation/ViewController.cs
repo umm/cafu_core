@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 // ReSharper disable VirtualMemberNeverOverridden.Global
+#pragma warning disable 618
 
 namespace CAFU.Core {
 
@@ -18,16 +20,19 @@ namespace CAFU.Core {
 
 namespace CAFU.Core.Presentation {
 
+    [Obsolete("Please use CAFU.Core.Presentation.View.IController instead of this interface.")]
     public interface IViewController {
 
     }
 
+    [Obsolete("Please use CAFU.Core.Presentation.View.IController instead of this interface.")]
     public interface IViewControllerPresenter<out TPresenter> : IViewController {
 
         TPresenter Presenter { get; }
 
     }
 
+    [Obsolete("Please use CAFU.Core.Presentation.View.IController instead of this interface.")]
     public interface IViewControllerBuilder {
 
         void Build();
@@ -37,13 +42,14 @@ namespace CAFU.Core.Presentation {
     // Singleton インスタンスを確定させるために、あらゆるクラスよりも先に Awake() が実行されて欲しいので [DefaultExecutionOrder(-1)] を設定
     // 一応簡単なコードで abstract クラスでも効くことは確認済
     [DefaultExecutionOrder(DefaultExecutionOrders.ViewController)]
-    public abstract class ViewControllerBase<TPresenter> : MonoBehaviour,
+    public abstract class ViewControllerBase<TPresenter> : View.Controller<ViewControllerBase<TPresenter>, TPresenter, PresenterFactory<TPresenter>>,
         IViewControllerPresenter<TPresenter>
-        where TPresenter : IPresenter {
+        where TPresenter : IPresenter, new() {
 
-        public TPresenter Presenter { get; protected set; }
+        public new TPresenter Presenter { get; protected set; }
 
-        protected virtual void Awake() {
+        protected override void Awake() {
+            base.Awake();
             IViewControllerBuilder builder = this as IViewControllerBuilder;
             if (builder != default(IViewControllerBuilder)) {
                 builder.Build();
@@ -54,16 +60,16 @@ namespace CAFU.Core.Presentation {
 
     public abstract class ViewControllerBaseAsSingleton<TViewController, TPresenter> : ViewControllerBase<TPresenter>
         where TViewController : ViewControllerBaseAsSingleton<TViewController, TPresenter>
-        where TPresenter : IPresenter {
+        where TPresenter : IPresenter, new() {
 
-        public static TViewController Instance { get; private set; }
+        public new static TViewController Instance { get; private set; }
 
         protected override void Awake() {
             Instance = (TViewController)this;
             base.Awake();
         }
 
-        protected virtual void OnDestroy() {
+        protected override void OnDestroy() {
             Instance = null;
         }
 
