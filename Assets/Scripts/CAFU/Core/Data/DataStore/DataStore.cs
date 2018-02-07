@@ -42,6 +42,11 @@ namespace CAFU.Core.Data.DataStore {
 
     }
 
+    public class SceneDataStoreFactory<TDataStore> : SceneDataStoreFactory<SceneDataStoreFactory<TDataStore>, TDataStore>
+        where TDataStore : Object, IDataStore {
+
+    }
+
     public class SceneDataStoreFactory<TFactory, TDataStore> : SingletonFactory<TFactory>, IDataStoreFactory<TDataStore>
         where TFactory : SceneDataStoreFactory<TFactory, TDataStore>, IFactory<TDataStore>, new()
         where TDataStore : Object, IDataStore {
