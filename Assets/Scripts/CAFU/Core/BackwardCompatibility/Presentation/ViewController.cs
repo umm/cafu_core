@@ -42,11 +42,11 @@ namespace CAFU.Core.Presentation {
     // Singleton インスタンスを確定させるために、あらゆるクラスよりも先に Awake() が実行されて欲しいので [DefaultExecutionOrder(-1)] を設定
     // 一応簡単なコードで abstract クラスでも効くことは確認済
     [DefaultExecutionOrder(DefaultExecutionOrders.ViewController)]
-    public abstract class ViewControllerBase<TPresenter> : View.Controller<TPresenter, PresenterFactory<TPresenter>>,
+    public abstract class ViewControllerBase<TPresenter> : View.Controller<ViewControllerBase<TPresenter>, TPresenter, PresenterFactory<TPresenter>>,
         IViewControllerPresenter<TPresenter>
         where TPresenter : IPresenter, new() {
 
-        public TPresenter Presenter { get; protected set; }
+        public new TPresenter Presenter { get; protected set; }
 
         protected override void Awake() {
             base.Awake();
@@ -62,7 +62,7 @@ namespace CAFU.Core.Presentation {
         where TViewController : ViewControllerBaseAsSingleton<TViewController, TPresenter>
         where TPresenter : IPresenter, new() {
 
-        public static TViewController Instance { get; private set; }
+        public new static TViewController Instance { get; private set; }
 
         protected override void Awake() {
             Instance = (TViewController)this;
