@@ -20,13 +20,13 @@ namespace CAFU.Core.Presentation {
     public static class PresenterFactory {
 
         public static TPresenter CreateInstance<TPresenter>() where TPresenter : class, IPresenter, new() {
-            return Factory.InvokeCreate<TPresenter>() ?? PresenterFactory<TPresenter>.Instance.Create();
+            return Factory.InvokeCreate<TPresenter>() ?? new PresenterFactory<TPresenter>().Create();
         }
 
     }
 
     [Obsolete("Please use DefaultPresenterFactory<TPresenter> instead of this class.")]
-    public class PresenterFactory<TPresenter> : DefaultPresenterFactory<PresenterFactory<TPresenter>, TPresenter> where TPresenter : IPresenter, new() {
+    public class PresenterFactory<TPresenter> : DefaultPresenterFactory<TPresenter> where TPresenter : IPresenter, new() {
 
         protected override void Initialize(TPresenter instance) {
             base.Initialize(instance);

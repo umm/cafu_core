@@ -30,11 +30,11 @@ namespace CAFU.Core.Domain {
 
         // ReSharper disable once MemberCanBePrivate.Global
         public static TUseCase CreateInstance<TUseCase>() where TUseCase : class, UseCase.IUseCase, new() {
-            return Factory.InvokeCreate<TUseCase>() ?? UseCaseFactory<TUseCase>.Instance.Create();
+            return Factory.InvokeCreate<TUseCase>() ?? new UseCaseFactory<TUseCase>().Create();
         }
 
         public static TUseCase GetOrCreateInstance<TUseCase>() where TUseCase : class, ISingletonUseCase, new() {
-            return Factory.InvokeCreate<TUseCase>() ?? UseCaseFactory<TUseCase>.Instance.Create();
+            return Factory.InvokeCreate<TUseCase>() ?? new UseCaseFactory<TUseCase>().Create();
         }
 
         public static void DestroyInstance<TUseCase>() where TUseCase : class, ISingletonUseCase, new() {
@@ -48,7 +48,7 @@ namespace CAFU.Core.Domain {
 
     }
 
-    public class UseCaseFactory<TUseCase> : DefaultUseCaseFactory<UseCaseFactory<TUseCase>, TUseCase> where TUseCase : UseCase.IUseCase, new() {
+    public class UseCaseFactory<TUseCase> : DefaultUseCaseFactory<TUseCase> where TUseCase : UseCase.IUseCase, new() {
 
         protected override void Initialize(TUseCase instance) {
             base.Initialize(instance);

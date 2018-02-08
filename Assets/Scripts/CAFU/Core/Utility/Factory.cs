@@ -1,24 +1,13 @@
 ﻿// ReSharper disable UnusedMember.Global
+
+using UnityEngine;
+// ReSharper disable VirtualMemberNeverOverridden.Global
+
 namespace CAFU.Core.Utility {
 
     public interface ISingleton {
 
     }
-
-//    public class DefaultFactory<TFactory> where TFactory : DefaultFactory<TFactory>, new() {
-//
-//        private static TFactory instance;
-//
-//        public static TFactory Instance {
-//            get {
-//                if (instance == default(TFactory)) {
-//                    instance = new TFactory();
-//                }
-//                return instance;
-//            }
-//        }
-//
-//    }
 
     public interface IFactory {
 
@@ -30,49 +19,25 @@ namespace CAFU.Core.Utility {
 
     }
 
-    public class SingletonFactory<TFactory> : IFactory where TFactory : SingletonFactory<TFactory>, new() {
+    // 本当は Factory クラス自体を Singleton にしたいが、AOT の制約により Generics 型の Factory が落とされてしまうため断念
+    public abstract class Factory<TTarget> : IFactory<TTarget> {
 
-        // Initialize メソッドで同名の引数を用いるためフィールド側を変更しています
-        private static TFactory factoryInstance;
+        private static TTarget TargetInstance { get; set; }
 
-        public static TFactory Instance {
-            get {
-                if (factoryInstance == default(TFactory)) {
-                    factoryInstance = new TFactory();
-                }
-                return factoryInstance;
-            }
-        }
-
-    }
-
-    public class DefaultFactory<TFactory, TTarget> : SingletonFactory<TFactory>, IFactory<TTarget> where TFactory : DefaultFactory<TFactory, TTarget>, new() where TTarget : new() {
-
-        private static TTarget targetInstance;
-
-        private static TTarget TargetInstance {
-            get {
-                if (targetInstance == null) {
-                    targetInstance = new TTarget();
-                    Instance.Initialize(targetInstance);
-                }
-                return targetInstance;
-            }
-            set {
-                targetInstance = value;
-            }
-        }
-
-        public TTarget Create() {
+        public virtual TTarget Create() {
             if (typeof(ISingleton).IsAssignableFrom(typeof(TTarget))) {
+                if (TargetInstance == null) {
+                    TargetInstance = this.ConstructInstance();
+                    this.Initialize(TargetInstance);
+                }
                 return TargetInstance;
             }
-            TTarget target = new TTarget();
+            TTarget target = this.ConstructInstance();
             this.Initialize(target);
             return target;
         }
 
-        public void Destroy() {
+        public virtual void Destroy() {
             if (typeof(ISingleton).IsAssignableFrom(typeof(TTarget))) {
                 TargetInstance = default(TTarget);
             }
@@ -80,6 +45,24 @@ namespace CAFU.Core.Utility {
 
         protected virtual void Initialize(TTarget instance) {
             // Do nothing.
+        }
+
+        protected abstract TTarget ConstructInstance();
+
+    }
+
+    public class SceneFactory<TTarget> : Factory<TTarget> where TTarget : Object {
+
+        protected override TTarget ConstructInstance() {
+            return Object.FindObjectOfType<TTarget>();
+        }
+
+    }
+
+    public class DefaultFactory<TTarget> : Factory<TTarget> where TTarget : new() {
+
+        protected override TTarget ConstructInstance() {
+            return new TTarget();
         }
 
     }

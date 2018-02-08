@@ -358,13 +358,7 @@ namespace CAFU.Core.Domain.Translator {
 
     }
 
-    public class DefaultTranslatorFactory<TTranslator> : DefaultTranslatorFactory<DefaultTranslatorFactory<TTranslator>, TTranslator>
-        where TTranslator : ITranslator, new() {
-
-    }
-
-    public class DefaultTranslatorFactory<TFactory, TTranslator> : DefaultFactory<TFactory, TTranslator>, ITranslatorFactory<TTranslator>
-        where TFactory : DefaultFactory<TFactory, TTranslator>, new()
+    public class DefaultTranslatorFactory<TTranslator> : DefaultFactory<TTranslator>, ITranslatorFactory<TTranslator>
         where TTranslator : ITranslator, new() {
 
     }
