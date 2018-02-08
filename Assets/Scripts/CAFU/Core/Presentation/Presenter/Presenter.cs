@@ -12,13 +12,7 @@ namespace CAFU.Core.Presentation.Presenter {
 
     }
 
-    public class DefaultPresenterFactory<TPresenter> : DefaultPresenterFactory<DefaultPresenterFactory<TPresenter>, TPresenter>
-        where TPresenter : IPresenter, new() {
-
-    }
-
-    public class DefaultPresenterFactory<TFactory, TPresenter> : DefaultFactory<TFactory, TPresenter>, IPresenterFactory<TPresenter>
-        where TFactory : DefaultFactory<TFactory, TPresenter>, new()
+    public class DefaultPresenterFactory<TPresenter> : DefaultFactory<TPresenter>, IPresenterFactory<TPresenter>
         where TPresenter : IPresenter, new() {
 
     }

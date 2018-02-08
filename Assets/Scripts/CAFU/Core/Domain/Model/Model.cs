@@ -32,13 +32,7 @@ namespace CAFU.Core.Domain.Model {
 
     }
 
-    public class DefaultModelFactory<TModel> : DefaultModelFactory<DefaultModelFactory<TModel>, TModel>
-        where TModel : IModel, new() {
-
-    }
-
-    public class DefaultModelFactory<TFactory, TModel> : DefaultFactory<TFactory, TModel>, IModelFactory<TModel>
-        where TFactory : DefaultFactory<TFactory, TModel>, new()
+    public class DefaultModelFactory<TModel> : DefaultFactory<TModel>, IModelFactory<TModel>
         where TModel : IModel, new() {
 
     }

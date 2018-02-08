@@ -20,12 +20,12 @@ namespace CAFU.Core.Domain {
     public static class RepositoryFactory {
 
         public static TRepository CreateInstance<TRepository>() where TRepository : class, Repository.IRepository, new() {
-            return Factory.InvokeCreate<TRepository>() ?? RepositoryFactory<TRepository>.Instance.Create();
+            return Factory.InvokeCreate<TRepository>() ?? new RepositoryFactory<TRepository>().Create();
         }
 
     }
 
-    public class RepositoryFactory<TRepository> : DefaultRepositoryFactory<RepositoryFactory<TRepository>, TRepository> where TRepository : Repository.IRepository, new() {
+    public class RepositoryFactory<TRepository> : DefaultRepositoryFactory<TRepository> where TRepository : Repository.IRepository, new() {
 
         protected override void Initialize(TRepository instance) {
             base.Initialize(instance);

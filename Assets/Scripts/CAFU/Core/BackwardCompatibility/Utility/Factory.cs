@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace CAFU.Core.Utility {
 
-    public static class Factory {
+    public class Factory {
 
         public static T InvokeCreate<T>() where T : class {
             Assembly assembly = Assembly.GetAssembly(typeof(T));
