@@ -1,22 +1,27 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEditor;
 // ReSharper disable UseStringInterpolation
 
-namespace CAFU.Core.Data.Entity.ScriptableObject {
+namespace CAFU.Core.Data.Entity {
 
     public static class Generator {
 
         private const string EXTENSION = ".asset";
 
         public static void Generate<T>() where T : UnityEngine.ScriptableObject {
-            string path = ResolvePath<T>();
-            AssetDatabase.CreateAsset(UnityEngine.ScriptableObject.CreateInstance<T>(), path);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            Selection.activeObject = AssetDatabase.LoadAssetAtPath<T>(path);
+            Generate(typeof(T));
         }
 
-        private static string ResolvePath<T>() where T : UnityEngine.ScriptableObject {
+        public static void Generate(Type type) {
+            string path = ResolvePath(type);
+            AssetDatabase.CreateAsset(UnityEngine.ScriptableObject.CreateInstance(type), path);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.ScriptableObject>(path);
+        }
+
+        private static string ResolvePath(Type type) {
             string directoryName = "Assets";
             if (Selection.objects.Length != 0) {
                 string path = AssetDatabase.GetAssetPath(Selection.objects[0]);
@@ -30,7 +35,7 @@ namespace CAFU.Core.Data.Entity.ScriptableObject {
                 }
             }
             // ReSharper disable once AssignNullToNotNullAttribute
-            string basePath = Path.Combine(directoryName, typeof(T).Name);
+            string basePath = Path.Combine(directoryName, type.Name);
             // ファイルが存在しないなら確定
             if (AssetDatabase.LoadAssetAtPath<UnityEngine.ScriptableObject>(string.Format("{0}{1}", basePath, EXTENSION)) == null) {
                 return string.Format("{0}{1}", basePath, EXTENSION);
@@ -40,6 +45,19 @@ namespace CAFU.Core.Data.Entity.ScriptableObject {
             while (AssetDatabase.LoadAssetAtPath<UnityEngine.ScriptableObject>(string.Format("{0} {1}{2}", basePath, ++index, EXTENSION)) != null) {
             }
             return string.Format("{0} {1}{2}", basePath, index, EXTENSION);
+        }
+
+    }
+
+    namespace ScriptableObject {
+
+        [Obsolete("Please use 'CAFU.Core.Data.Entity.Generator' instead of this class.")]
+        public static class Generator {
+
+            public static void Generate<T>() where T : UnityEngine.ScriptableObject {
+                Entity.Generator.Generate<T>();
+            }
+
         }
 
     }
