@@ -37,7 +37,7 @@ namespace CAFU.Core.Utility {
             return target;
         }
 
-        public virtual void Destroy() {
+        public static void Destroy() {
             if (typeof(ISingleton).IsAssignableFrom(typeof(TTarget))) {
                 TargetInstance = default(TTarget);
             }
