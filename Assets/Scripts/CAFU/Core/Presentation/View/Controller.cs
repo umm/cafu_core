@@ -1,5 +1,6 @@
 ﻿using CAFU.Core.Presentation.Presenter;
 using UniRx;
+using UnityEngine;
 
 // ReSharper disable VirtualMemberNeverOverridden.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -48,6 +49,7 @@ namespace CAFU.Core.Presentation.View {
         protected override void OnDestroy() {
             base.OnDestroy();
             Instance = null;
+            Resources.UnloadUnusedAssets();
         }
 
     }
