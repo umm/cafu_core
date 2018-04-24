@@ -2,20 +2,20 @@
 # yarn lockfile v1
 
 
-"@umm/unirx@^1.0.3":
+"@umm/unirx@umm-projects/unirx#^1.0.0":
   version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@umm/unirx/-/unirx-1.0.3.tgz#72228afd507f64c8d960793ac3a723ceacee49ce"
+  resolved "https://codeload.github.com/umm-projects/unirx/tar.gz/f6dfd61ea58ffce442a272542cffe5798343c86d"
   dependencies:
     glob "^7.1.2"
     mkdirp "^0.5.1"
     ncp "^2.0.0"
     rimraf "^2.6.1"
 
-"@umm/unirx_observablelifecyclemonobehaviour@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@umm/unirx_observablelifecyclemonobehaviour/-/unirx_observablelifecyclemonobehaviour-1.0.2.tgz#6be184b00d5bd755702b9457844b2460d6bfbf7e"
+"@umm/unirx_observablelifecyclemonobehaviour@umm-projects/unirx_observablelifecyclemonobehaviour#^1.0.0":
+  version "1.1.0"
+  resolved "https://codeload.github.com/umm-projects/unirx_observablelifecyclemonobehaviour/tar.gz/a2443df87aa08e18ebb8b9a47c73891f33e58df5"
   dependencies:
-    "@umm/unirx" "^1.0.3"
+    "@umm/unirx" umm-projects/unirx#^1.0.0
     glob "^7.1.2"
     mkdirp "^0.5.1"
     ncp "^2.0.0"
