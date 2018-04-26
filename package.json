@@ -7,12 +7,11 @@
     "url": "https://github.com/umm-projects/cafu_core/issues"
   },
   "scripts": {
-    "umm:init": "node ./scripts/umm/init.js",
-    "umm:clean": "node ./scripts/umm/clean.js",
-    "umm:install": "node ./scripts/umm/install.js",
-    "umm:uninstall": "node ./scripts/umm/uninstall.js",
-    "postinstall": "npm run umm:install",
-    "postuninstall": "npm run umm:uninstall",
+    "umm:init": "./node_modules/.bin/umm-init",
+    "umm:install": "./node_modules/.bin/umm-install",
+    "umm:uninstall": "./node_modules/.bin/umm-uninstall",
+    "postinstall": "npm run --silent umm:install",
+    "postuninstall": "npm run --silent umm:uninstall",
     "build:test": "tar -tf $(npm pack -s) && $(npm bin)/rimraf $_"
   },
   "author": "Tetsuya Mori",
@@ -26,6 +25,7 @@
     "scripts"
   ],
   "dependencies": {
+    "@umm/scripts": "umm-projects/scripts#^1.0.0",
     "@umm/unirx": "umm-projects/unirx#^1.0.0",
     "@umm/unirx_observablelifecyclemonobehaviour": "umm-projects/unirx_observablelifecyclemonobehaviour#^1.0.0",
     "glob": "^7.1.2",
