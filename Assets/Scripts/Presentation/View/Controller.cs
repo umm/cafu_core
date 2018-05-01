@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
+using IPresenter = CAFU.Core.Presentation.Presenter.IPresenter;
 
 namespace CAFU.Core.Presentation.View
 {
@@ -11,30 +12,17 @@ namespace CAFU.Core.Presentation.View
     }
 
     [PublicAPI]
-    public interface IController<TPresenter> : IController
-    {
-        TPresenter Presenter { get; set; }
-    }
-
-    [PublicAPI]
-    public abstract class Controller<TController, TPresenter, TPresenterFactory> : ObservableLifecycleMonoBehaviour, IController<TPresenter>
+    public abstract class Controller<TController, TPresenter, TPresenterFactory> : ObservableLifecycleMonoBehaviour, IController
         where TController : Controller<TController, TPresenter, TPresenterFactory>
-        where TPresenter : Presenter.IPresenter, new()
+        where TPresenter : IPresenter, new()
         where TPresenterFactory : DefaultPresenterFactory<TPresenter>, IPresenterFactory<TPresenter>, new()
     {
         public static TController Instance { get; set; }
 
-        public TPresenter Presenter { get; set; }
-
-        protected TPresenter GetPresenter()
-        {
-            return ((IController<TPresenter>) this).Presenter;
-        }
-
         protected override void OnAwake()
         {
             base.OnAwake();
-            ((IController<TPresenter>) this).Presenter = new TPresenterFactory().Create();
+            PresenterContainer.Instance.SetPresenter(this.GetSceneName(), new TPresenterFactory().Create());
             Instance = (TController) this;
         }
 
@@ -42,6 +30,7 @@ namespace CAFU.Core.Presentation.View
         {
             base.OnDestroy();
             Instance = null;
+            PresenterContainer.Instance.RemovePresenter(this.GetSceneName());
             Resources.UnloadUnusedAssets();
         }
     }
