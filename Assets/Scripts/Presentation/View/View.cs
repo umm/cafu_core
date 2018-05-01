@@ -1,5 +1,6 @@
 ﻿using System;
 using CAFU.Core.Domain.Model;
+using CAFU.Core.Presentation.Presenter;
 using JetBrains.Annotations;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -21,6 +22,22 @@ namespace CAFU.Core.Presentation.View
     [PublicAPI]
     public static class ViewExtension
     {
+        public static string GetSceneName(this IView view)
+        {
+            var component = view as Component;
+            if (component == null)
+            {
+                throw new InvalidCastException($"View '{view.GetType().FullName}' does not extends UnityEngine.Component.");
+            }
+
+            return component.gameObject.scene.name;
+        }
+
+        public static TPresenter GetPresenter<TPresenter>(this IView view) where TPresenter : IPresenter
+        {
+            return PresenterContainer.Instance.GetPresenter<TPresenter>(view.GetSceneName());
+        }
+
         public static IView AddChildView(this Transform transform, GameObject prefab)
         {
             return transform.AddChildView<IView>(prefab);
@@ -56,9 +73,10 @@ namespace CAFU.Core.Presentation.View
                 throw new InvalidOperationException($"'{typeof(TView).FullName}' is not inheritance MonoBehaviour.");
             }
 
-            if (childView is IInjectableView<TModel>)
+            var view = childView as IInjectableView<TModel>;
+            if (view != null)
             {
-                ((IInjectableView<TModel>) childView).Inject(model);
+                view.Inject(model);
             }
 
             return childView;
