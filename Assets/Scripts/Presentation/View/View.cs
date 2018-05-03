@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using CAFU.Core.Domain.Model;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -54,27 +53,6 @@ namespace CAFU.Core.Presentation.View {
             if (childView is IInjectableView<TModel>) {
                 ((IInjectableView<TModel>)childView).Inject(model);
             }
-
-#region v2.0.0 で消す
-#pragma warning disable 618
-
-            // Model 不要の IViewBuilder.Build() をコール
-            childMonoBehaviour.gameObject.GetComponents<IViewBuilder>().ToList().ForEach(
-                (x) => {
-                    x.Build();
-                }
-            );
-            if (model != null) {
-                // Model を要する IViewBuilder<TModel>.Build(TModel model) をコール
-                childMonoBehaviour.gameObject.GetComponents<IViewBuilder<TModel>>().ToList().ForEach(
-                    (x) => {
-                        x.Build(model);
-                    }
-                );
-            }
-
-#pragma warning restore 618
-#endregion
 
             return childView;
         }
