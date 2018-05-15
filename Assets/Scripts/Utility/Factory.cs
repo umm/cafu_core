@@ -1,21 +1,26 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 namespace CAFU.Core.Utility
 {
+    [PublicAPI]
     public interface ISingleton
     {
     }
 
+    [PublicAPI]
     public interface IFactory
     {
     }
 
+    [PublicAPI]
     public interface IFactory<out TTarget> : IFactory
     {
         TTarget Create();
     }
 
     // 本当は Factory クラス自体を Singleton にしたいが、AOT の制約により Generics 型の Factory が落とされてしまうため断念
+    [PublicAPI]
     public abstract class Factory<TTarget> : IFactory<TTarget>
     {
         private static TTarget TargetInstance { get; set; }
@@ -54,6 +59,7 @@ namespace CAFU.Core.Utility
         protected abstract TTarget ConstructInstance();
     }
 
+    [PublicAPI]
     public class SceneFactory<TTarget> : Factory<TTarget> where TTarget : Object
     {
         protected override TTarget ConstructInstance()
@@ -62,6 +68,7 @@ namespace CAFU.Core.Utility
         }
     }
 
+    [PublicAPI]
     public class DefaultFactory<TTarget> : Factory<TTarget> where TTarget : new()
     {
         protected override TTarget ConstructInstance()

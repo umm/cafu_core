@@ -1,18 +1,22 @@
 ﻿using CAFU.Core.Presentation.Presenter;
+using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
 
 namespace CAFU.Core.Presentation.View
 {
+    [PublicAPI]
     public interface IController : IView
     {
     }
 
+    [PublicAPI]
     public interface IController<TPresenter> : IController
     {
         TPresenter Presenter { get; set; }
     }
 
+    [PublicAPI]
     public abstract class Controller<TController, TPresenter, TPresenterFactory> : ObservableLifecycleMonoBehaviour, IController<TPresenter>
         where TController : Controller<TController, TPresenter, TPresenterFactory>
         where TPresenter : Presenter.IPresenter, new()

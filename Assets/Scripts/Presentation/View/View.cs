@@ -1,20 +1,24 @@
 ﻿using System;
 using CAFU.Core.Domain.Model;
+using JetBrains.Annotations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CAFU.Core.Presentation.View
 {
     // 本当は IMonoBehaviour 的なモノを継承したいところだが、そんな inteface ないので規約ベースで頑張る
+    [PublicAPI]
     public interface IView
     {
     }
 
+    [PublicAPI]
     public interface IInjectableView<in TModel> : IView where TModel : IModel
     {
         void Inject(TModel model);
     }
 
+    [PublicAPI]
     public static class ViewExtension
     {
         public static IView AddChildView(this Transform transform, GameObject prefab)
