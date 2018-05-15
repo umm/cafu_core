@@ -62,12 +62,12 @@ namespace CAFU.Core.Data.DataStore
 
         private static string CreatePath<T>() where T : ScriptableObject
         {
-            return Path.Combine(BaseDirectoryName, string.Format("{0}{1}", typeof(T).Name, Extension));
+            return Path.Combine(BaseDirectoryName, $"{typeof(T).Name}{Extension}");
         }
 
         public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreInResources self) where T : ScriptableObject
         {
-            return Regex.Replace(CreatePath<T>(), string.Format("{0}$", Extension), string.Empty);
+            return Regex.Replace(CreatePath<T>(), $"{Extension}$", string.Empty);
         }
 
         public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreInStreamingAssets self) where T : ScriptableObject

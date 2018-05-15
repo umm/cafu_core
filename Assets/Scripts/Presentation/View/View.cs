@@ -39,7 +39,7 @@ namespace CAFU.Core.Presentation.View
             var childView = child.gameObject.GetComponent<TView>();
             if (childView == null)
             {
-                throw new InvalidOperationException(string.Format("GameObject '{0}' has not attached component '{1}'.", child.name, typeof(TView).FullName));
+                throw new InvalidOperationException($"GameObject '{child.name}' has not attached component '{typeof(TView).FullName}'.");
             }
 
             return childView;
@@ -53,7 +53,7 @@ namespace CAFU.Core.Presentation.View
             var childMonoBehaviour = childView as MonoBehaviour;
             if (childMonoBehaviour == default(MonoBehaviour))
             {
-                throw new InvalidOperationException(string.Format("'{0}' is not inheritance MonoBehaviour.", typeof(TView).FullName));
+                throw new InvalidOperationException($"'{typeof(TView).FullName}' is not inheritance MonoBehaviour.");
             }
 
             if (childView is IInjectableView<TModel>)
