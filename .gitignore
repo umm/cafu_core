@@ -54,6 +54,7 @@ Thumbs.db
 # ======== #
 # Optional #
 # ======== #
+/Assets/Plugins.meta
 /Assets/Plugins/Editor.meta
 
 # ====== #
