@@ -22,13 +22,7 @@ namespace CAFU.Core.Presentation.View
         where TPresenter : Presenter.IPresenter, new()
         where TPresenterFactory : DefaultPresenterFactory<TPresenter>, IPresenterFactory<TPresenter>, new()
     {
-        private static TController instance;
-
-        public static TController Instance
-        {
-            get { return instance; }
-            set { instance = value; }
-        }
+        public static TController Instance { get; set; }
 
         public TPresenter Presenter { get; set; }
 
