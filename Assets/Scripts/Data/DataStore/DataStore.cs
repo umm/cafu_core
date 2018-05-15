@@ -1,68 +1,78 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
 using CAFU.Core.Utility;
+using JetBrains.Annotations;
 using UnityEngine;
 
-// ReSharper disable UnusedMember.Global
-
-namespace CAFU.Core.Data.DataStore {
-
-    public interface IDataStore {
-
+namespace CAFU.Core.Data.DataStore
+{
+    [PublicAPI]
+    public interface IDataStore
+    {
     }
 
-    public interface ISingletonDataStore : IDataStore, ISingleton {
-
+    [PublicAPI]
+    public interface ISingletonDataStore : IDataStore, ISingleton
+    {
     }
 
-    public interface IScriptableObjectDataStore : IDataStore {
-
+    [PublicAPI]
+    public interface IScriptableObjectDataStore : IDataStore
+    {
     }
 
-    public interface IScriptableObjectDataStoreInScene : IScriptableObjectDataStore {
-
+    [PublicAPI]
+    public interface IScriptableObjectDataStoreInScene : IScriptableObjectDataStore
+    {
     }
 
-    public interface IScriptableObjectDataStoreInResources : IScriptableObjectDataStore {
-
+    [PublicAPI]
+    public interface IScriptableObjectDataStoreInResources : IScriptableObjectDataStore
+    {
     }
 
-    public interface IScriptableObjectDataStoreInStreamingAssets : IScriptableObjectDataStore {
-
+    [PublicAPI]
+    public interface IScriptableObjectDataStoreInStreamingAssets : IScriptableObjectDataStore
+    {
     }
 
-    public interface IDataStoreFactory<out TDataStore> : IFactory<TDataStore> where TDataStore : IDataStore {
-
+    [PublicAPI]
+    public interface IDataStoreFactory<out TDataStore> : IFactory<TDataStore> where TDataStore : IDataStore
+    {
     }
 
+    [PublicAPI]
     public class DefaultDataStoreFactory<TDataStore> : DefaultFactory<TDataStore>, IDataStoreFactory<TDataStore>
-        where TDataStore : IDataStore, new() {
-
+        where TDataStore : IDataStore, new()
+    {
     }
 
+    [PublicAPI]
     public class SceneDataStoreFactory<TDataStore> : SceneFactory<TDataStore>, IDataStoreFactory<TDataStore>
-        where TDataStore : Object, IDataStore {
-
+        where TDataStore : Object, IDataStore
+    {
     }
 
-    public static class ScriptableObjectDataStoreExtension {
+    [PublicAPI]
+    public static class ScriptableObjectDataStoreExtension
+    {
+        private const string BaseDirectoryName = "Entities";
 
-        private const string BASE_DIRECTORY_NAME = "Entities";
+        private const string Extension = ".asset";
 
-        private const string EXTENSION = ".asset";
-
-        private static string CreatePath<T>() where T : ScriptableObject {
-            return Path.Combine(BASE_DIRECTORY_NAME, string.Format("{0}{1}", typeof(T).Name, EXTENSION));
+        private static string CreatePath<T>() where T : ScriptableObject
+        {
+            return Path.Combine(BaseDirectoryName, $"{typeof(T).Name}{Extension}");
         }
 
-        public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreInResources self) where T : ScriptableObject {
-            return Regex.Replace(CreatePath<T>(), string.Format("{0}$", EXTENSION), string.Empty);
+        public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreInResources self) where T : ScriptableObject
+        {
+            return Regex.Replace(CreatePath<T>(), $"{Extension}$", string.Empty);
         }
 
-        public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreInStreamingAssets self) where T : ScriptableObject {
+        public static string CreatePathInRuntime<T>(this IScriptableObjectDataStoreInStreamingAssets self) where T : ScriptableObject
+        {
             return Path.Combine(Application.streamingAssetsPath, CreatePath<T>());
         }
-
     }
-
 }

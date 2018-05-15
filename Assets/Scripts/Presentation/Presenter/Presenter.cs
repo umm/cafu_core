@@ -1,28 +1,30 @@
 ﻿using CAFU.Core.Utility;
+using JetBrains.Annotations;
 
-// ReSharper disable UnusedMember.Global
-
-namespace CAFU.Core.Presentation.Presenter {
-
-    public interface IPresenter {
-
+namespace CAFU.Core.Presentation.Presenter
+{
+    [PublicAPI]
+    public interface IPresenter
+    {
     }
 
-    public interface IPresenterFactory<out TPresenter> : IFactory<TPresenter> where TPresenter : IPresenter {
-
+    [PublicAPI]
+    public interface IPresenterFactory<out TPresenter> : IFactory<TPresenter> where TPresenter : IPresenter
+    {
     }
 
+    [PublicAPI]
     public class DefaultPresenterFactory<TPresenter> : DefaultFactory<TPresenter>, IPresenterFactory<TPresenter>
-        where TPresenter : IPresenter, new() {
-
+        where TPresenter : IPresenter, new()
+    {
     }
 
-    public static class PresenterExtension {
-
-        public static TPresenter As<TPresenter>(this IPresenter presenter) where TPresenter : class, IPresenter {
+    [PublicAPI]
+    public static class PresenterExtension
+    {
+        public static TPresenter As<TPresenter>(this IPresenter presenter) where TPresenter : class, IPresenter
+        {
             return presenter as TPresenter;
         }
-
     }
-
 }
