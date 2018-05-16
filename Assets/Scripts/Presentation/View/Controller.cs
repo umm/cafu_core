@@ -19,6 +19,8 @@ namespace CAFU.Core.Presentation.View
     {
         public static TController Instance { get; set; }
 
+        public TPresenter Presenter => this.GetPresenter<TPresenter>();
+
         protected override void OnAwake()
         {
             base.OnAwake();
