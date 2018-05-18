@@ -42,6 +42,12 @@ namespace CAFU.Core.Data.DataStore
     }
 
     [PublicAPI]
+    public interface IDataStoreResolver<out TDataStore> where TDataStore : IDataStore
+    {
+        TDataStore Resolve();
+    }
+
+    [PublicAPI]
     public class DefaultDataStoreFactory<TDataStore> : DefaultFactory<TDataStore>, IDataStoreFactory<TDataStore>
         where TDataStore : IDataStore, new()
     {
@@ -51,6 +57,15 @@ namespace CAFU.Core.Data.DataStore
     public class SceneDataStoreFactory<TDataStore> : SceneFactory<TDataStore>, IDataStoreFactory<TDataStore>
         where TDataStore : Object, IDataStore
     {
+    }
+
+    [PublicAPI]
+    public class DefaultDataStoreResolver<TDataStore> : IDataStoreResolver<TDataStore> where TDataStore : IDataStore, new()
+    {
+        public TDataStore Resolve()
+        {
+            return new DefaultDataStoreFactory<TDataStore>().Create();
+        }
     }
 
     [PublicAPI]
