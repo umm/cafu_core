@@ -8,8 +8,8 @@
   },
   "scripts": {
     "umm:init": "umm-init",
-    "umm:module:install": "umm-install",
-    "umm:module:uninstall": "umm-uninstall",
+    "umm:module:install": "umm-module-install",
+    "umm:module:uninstall": "umm-module-uninstall",
     "postinstall": "npm run --silent umm:module:install",
     "postuninstall": "npm run --silent umm:module:uninstall"
   },
