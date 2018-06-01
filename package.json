@@ -26,8 +26,8 @@
   "dependencies": {
     "@umm/cafu_generator": "umm-projects/cafu_generator#^1.0.0",
     "@umm/scripts": "umm-projects/scripts#^1.0.0",
-    "@umm/unirx": "umm-projects/unirx#^1.0.0",
-    "@umm/unirx_observablelifecyclemonobehaviour": "umm-projects/unirx_observablelifecyclemonobehaviour#^1.0.0"
+    "@umm/unirx": "umm-projects/unirx#^2.0.0",
+    "@umm/unirx_observablelifecyclemonobehaviour": "umm-projects/unirx_observablelifecyclemonobehaviour#^2.0.0"
   },
   "devDependencies": {}
 }
