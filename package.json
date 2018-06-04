@@ -8,6 +8,7 @@
   },
   "scripts": {
     "umm:init": "umm-init",
+    "umm:generate_assembly_definition": "umm-generate_assembly_definition",
     "umm:module:install": "umm-module-install",
     "umm:module:uninstall": "umm-module-uninstall",
     "postinstall": "npm run --silent umm:module:install",
