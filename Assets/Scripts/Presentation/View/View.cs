@@ -38,15 +38,32 @@ namespace CAFU.Core.Presentation.View
             return PresenterContainer.Instance.GetPresenter<TPresenter>(view.GetSceneName());
         }
 
+        public static IView AddChildView(this Transform transform, Component prefab)
+        {
+            return transform.AddChildView(prefab.gameObject);
+        }
+
         public static IView AddChildView(this Transform transform, GameObject prefab)
         {
             return transform.AddChildView<IView>(prefab);
+        }
+
+        public static IView AddChildView<TModel>(this Transform transform, Component prefab, TModel model)
+            where TModel : IModel
+        {
+            return transform.AddChildView(prefab.gameObject, model);
         }
 
         public static IView AddChildView<TModel>(this Transform transform, GameObject prefab, TModel model)
             where TModel : IModel
         {
             return transform.AddChildView<IView, TModel>(prefab, model);
+        }
+
+        public static TView AddChildView<TView>(this Transform transform, TView prefab)
+            where TView : Component, IView
+        {
+            return transform.AddChildView<TView>(prefab.gameObject);
         }
 
         public static TView AddChildView<TView>(this Transform transform, GameObject prefab)
@@ -62,6 +79,13 @@ namespace CAFU.Core.Presentation.View
             return childView;
         }
 
+        public static TView AddChildView<TView, TModel>(this Transform transform, TView prefab, TModel model)
+            where TView : Component, IView
+            where TModel : IModel
+        {
+            return transform.AddChildView<TView, TModel>(prefab.gameObject, model);
+        }
+
         public static TView AddChildView<TView, TModel>(this Transform transform, GameObject prefab, TModel model)
             where TView : IView
             where TModel : IModel
@@ -73,11 +97,7 @@ namespace CAFU.Core.Presentation.View
                 throw new InvalidOperationException($"'{typeof(TView).FullName}' is not inheritance MonoBehaviour.");
             }
 
-            var view = childView as IInjectableView<TModel>;
-            if (view != null)
-            {
-                view.Inject(model);
-            }
+            (childView as IInjectableView<TModel>)?.Inject(model);
 
             return childView;
         }
