@@ -14,7 +14,7 @@ yarn add "umm-projects/cafu_core#^2.0.0"
 
 # Usage
 
-* See [Wiki](wiki)
+* See [Wiki](https://github.com/umm-projects/cafu_core/wiki)
 
 # License
 
