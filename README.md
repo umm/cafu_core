@@ -4,17 +4,17 @@
 
 # Requirement
 
-* Unity
+* Unity 2018.1
 
 # Install
 
 ```shell
-$ npm install github:umm-projects/cafu_core
+yarn add "umm-projects/cafu_core#^2.0.0"
 ```
 
 # Usage
 
-* WIP
+* See [Wiki](wiki)
 
 # License
 
