@@ -1,7 +1,6 @@
 {
     "name": "umm@cafu_core",
     "references": [
-        "umm@cafu_generator",
         "umm@unirx",
         "umm@unirx_observablelifecyclemonobehaviour"
     ],
