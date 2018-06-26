@@ -48,6 +48,12 @@ namespace CAFU.Core.Data.DataStore
     }
 
     [PublicAPI]
+    public interface IDataStoreResolver<out TDataStore, in TVariable> where TDataStore : IDataStore
+    {
+        TDataStore Resolve(TVariable variable);
+    }
+
+    [PublicAPI]
     public class DefaultDataStoreFactory<TDataStore> : DefaultFactory<TDataStore>, IDataStoreFactory<TDataStore>
         where TDataStore : IDataStore, new()
     {
