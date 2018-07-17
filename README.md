@@ -9,12 +9,12 @@
 # Install
 
 ```shell
-yarn add "umm-projects/cafu_core#^2.0.0"
+yarn add "umm/cafu_core#^2.0.0"
 ```
 
 # Usage
 
-* See [Wiki](https://github.com/umm-projects/cafu_core/wiki)
+* See [Wiki](https://github.com/umm/cafu_core/wiki)
 
 # License
 
