@@ -27,8 +27,7 @@
   "dependencies": {
     "@umm/scripts": "umm/scripts#^1.0.0",
     "@umm/unirx": "umm/unirx#^2.0.0",
-    "@umm/unirx_observablelifecyclemonobehaviour": "umm/unirx_observablelifecyclemonobehaviour#^1.0.0",
-    "@umm/zenject": "umm/zenject#^2.0.0"
+    "@umm/unirx_observablelifecyclemonobehaviour": "umm/unirx_observablelifecyclemonobehaviour#^1.0.0"
   },
   "devDependencies": {}
 }

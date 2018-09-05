@@ -1,8 +1,7 @@
 {
     "name": "umm@cafu_core@v3",
     "references": [
-        "umm@unirx",
-        "Zenject"
+        "umm@unirx"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
