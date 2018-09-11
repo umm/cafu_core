@@ -1,6 +1,6 @@
 ﻿namespace CAFU.Core
 {
-    public interface IEntity
+    public interface IEntity : ITranslatable
     {
     }
 }

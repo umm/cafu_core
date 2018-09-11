@@ -1,6 +1,6 @@
 namespace CAFU.Core
 {
-    public interface IStructure
+    public interface IStructure : ITranslatable
     {
     }
 }
