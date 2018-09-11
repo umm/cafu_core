@@ -9,7 +9,7 @@
 # Install
 
 ```shell
-yarn add "umm/cafu_core#^2.0.0"
+yarn add "umm/cafu_core#^3.0.0"
 ```
 
 # Usage

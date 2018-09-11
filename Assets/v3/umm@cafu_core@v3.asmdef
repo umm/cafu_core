@@ -1,0 +1,10 @@
+{
+    "name": "umm@cafu_core@v3",
+    "references": [
+        "umm@unirx"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

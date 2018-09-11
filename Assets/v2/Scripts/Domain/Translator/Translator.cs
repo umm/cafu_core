@@ -131,7 +131,7 @@ namespace CAFU.Core.Domain.Translator
     public interface IEntityTranslator<in TModel1, out TEntity> : IEntityTranslator
         where TEntity : IEntity
     {
-        TEntity Translate(TModel1 model);
+        TEntity Translate(TModel1 webCamTexture);
     }
 
     [PublicAPI]
