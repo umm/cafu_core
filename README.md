@@ -16,9 +16,13 @@ yarn add "umm/cafu_core#^3.0.0"
 
 * See [Wiki](https://github.com/umm/cafu_core/wiki)
 
+# Sample
+
+* See [this repository](https://github.com/monry/cafu_sample)
+
 # License
 
-Copyright (c) 2017 Tetsuya Mori
+Copyright (c) 2017-2018 Tetsuya Mori
 
 Released under the MIT license, see [LICENSE.txt](LICENSE.txt)
 
