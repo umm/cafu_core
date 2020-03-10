@@ -1,11 +1,16 @@
 {
     "name": "umm@cafu_core",
     "references": [
-        "umm@unirx",
-        "umm@unirx_observablelifecyclemonobehaviour"
+        "GUID:a4f42265ac7cd41e9834080fcb0fab23",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
