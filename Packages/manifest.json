@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.neuecc.unirx": "git+ssh://git@github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts/",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.ads": "3.5.2",
@@ -44,21 +45,6 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "dev.upm-packages.unirx-observablelifecyclemonobehaviour": "1.3.0",
-    "jp.cysharp.unirx": "7.1.0"
-  },
-  "scopedRegistries": [
-    {
-      "name": "Unofficial Unity Package Manager Registry",
-      "url": "https://upm-packages.dev",
-      "scopes": [
-        "com.unity.simpleanimation",
-        "com.stevevermeulen",
-        "jp.cysharp",
-        "dev.monry",
-        "dev.upm-packages"
-      ]
-    }
-  ]
+    "com.unity.modules.xr": "1.0.0"
+  }
 }
